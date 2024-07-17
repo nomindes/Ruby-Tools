@@ -1,2 +1,2 @@
-# nomindev.net
-nomindev.net
+# nomin.jp
+nomin.jp
