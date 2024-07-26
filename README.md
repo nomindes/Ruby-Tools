@@ -1,2 +1,2 @@
 # nomin.jp
-nomin.jp
+https://nomin.jp/
