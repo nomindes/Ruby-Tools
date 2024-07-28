@@ -1,0 +1,166 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Details - The Fastest Website in the World</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Technical Details</h1>
+        <h2>The fastest website in the world.</h2>
+        <ul>
+            <li><a href="technical_details_ja.html">日本語版はこちら</a></li>
+        </ul>
+
+        <div class="section">
+            <h2>Overview</h2>
+            <p>This website is designed to be the fastest in the world, prioritizing performance, accessibility, and
+                minimalism. It draws inspiration from the Digital Agency of Japan's design system while maintaining its
+                unique identity as a personal website.</p>
+        </div>
+
+        <div class="section">
+            <h2>Performance Optimization</h2>
+            <h3>Content Delivery Network (CDN)</h3>
+            <p>This website utilizes Vercel CDN for optimal content delivery. Vercel's edge network ensures that static
+                assets are served from geographically distributed locations, minimizing latency and improving load times
+                for users worldwide.</p>
+
+            <h3>Minimalist Design</h3>
+            <p>The website employs a minimalist design philosophy, reducing the amount of data that needs to be
+                transferred. This approach not only enhances load times but also improves the user experience by
+                focusing on essential content.</p>
+
+            <h3>Static HTML</h3>
+            <p>By using static HTML, we eliminate the need for server-side processing and database queries,
+                significantly reducing the time to first byte (TTFB) and overall load time.</p>
+
+            <h3>CSS Optimization</h3>
+            <p>The CSS is meticulously crafted to be as lean as possible while maintaining the desired aesthetics.
+                Techniques such as shorthand properties and avoiding redundant rules are employed to minimize the CSS
+                file size.</p>
+
+            <h3>No JavaScript</h3>
+            <p>This website functions without any JavaScript, eliminating parsing, compilation, and execution time
+                typically associated with client-side scripts. This decision significantly reduces the computational
+                load on the client's device and further improves load times.</p>
+        </div>
+
+        <div class="section">
+            <h2>Accessibility</h2>
+            <h3>Color Contrast</h3>
+            <p>Careful attention has been paid to color contrast ratios throughout the site. The high contrast between
+                background colors and text ensures readability and compliance with WCAG 2.1 guidelines. This includes:
+            </p>
+            <ul>
+                <li>Background to text contrast</li>
+                <li>Button colors and their text</li>
+                <li>Link colors against their surrounding content</li>
+            </ul>
+
+            <h3>Typography</h3>
+            <p>The site uses a monospace font stack, starting with 'Fira Code', which provides clear, easily readable
+                text. The font size and line height are set to ensure optimal readability across various devices and
+                screen sizes.</p>
+        </div>
+
+        <div class="section">
+            <h2>Design Inspiration</h2>
+            <p>While maintaining its unique identity, this website draws inspiration from the Digital Agency of Japan's
+                design system. This influence is evident in:</p>
+            <ul>
+                <li>The clean, minimalist layout</li>
+                <li>The focus on typography and readability</li>
+                <li>The attention to color contrast and accessibility</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Technical Specifications</h2>
+            <h3>HTML</h3>
+            <p>The website uses semantic HTML5, ensuring proper structure and improved accessibility. Each page is
+                statically generated, allowing for rapid loading and rendering.</p>
+
+            <h3>CSS</h3>
+            <p>A single, optimized CSS file is used for styling. It employs modern CSS features such as flexbox for
+                layout and custom properties for maintaining a consistent color scheme.</p>
+
+            <h3>Hosting</h3>
+            <p>The servers leverage our global edge network for optimal performance. This setup allows for:</p>
+            <ul>
+                <li>Automatic HTTPS encryption</li>
+                <li>Global content distribution</li>
+                <li>Instant cache invalidation on deployments</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Performance Comparison</h2>
+            <p>A detailed performance comparison between this website and dev.to has been conducted using DebugBear.
+                This analysis provides insights into the loading process, rendering times, and overall performance
+                metrics.</p>
+
+            <h3>Key Metrics Comparison</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>nomin.jp</th>
+                        <th>dev.to</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Time to First Byte (TTFB)</td>
+                        <td>0.044s</td>
+                        <td>0.019s</td>
+                    </tr>
+                    <tr>
+                        <td>First Contentful Paint (FCP)</td>
+                        <td>0.177s</td>
+                        <td>1.35s</td>
+                    </tr>
+                    <tr>
+                        <td>Largest Contentful Paint (LCP)</td>
+                        <td>0.177s</td>
+                        <td>1.35s</td>
+                    </tr>
+                    <tr>
+                        <td>Cumulative Layout Shift (CLS)</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Total Blocking Time (TBT)</td>
+                        <td>0s</td>
+                        <td>0.56s</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>These metrics demonstrate the superior performance of this website compared to dev.to, particularly in
+                areas such as First Contentful Paint, Largest Contentful Paint, and Total Blocking Time. While dev.to
+                has a slightly faster Time to First Byte, this website outperforms it significantly in rendering speed
+                and interactivity.</p>
+
+            <h3>Load Time Filmstrip View Comparison</h3>
+            <div class="filmstrip-comparison">
+                <div class="filmstrip">
+                    <h4>nomin.jp</h4>
+                    <img src="../assets/nominjp-filmstrip.webp" alt="Filmstrip view of this website's loading process">
+                </div>
+                <div class="filmstrip">
+                    <h4>dev.to</h4>
+                    <img src="../assets/devto-filmstrip.webp" alt="Filmstrip view of dev.to's loading process">
+                </div>
+            </div>
+            <p>The filmstrip views above provide a visual representation of the loading process for both websites. As
+                evident from the images, this website achieves a fully rendered state significantly faster than dev.to,
+                resulting in a superior user experience.</p>
+        </div>
+</body>
+
+</html>
