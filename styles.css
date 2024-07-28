@@ -1,0 +1,111 @@
+body {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+    background-color: #000000;
+    color: #FFFFFF;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+a {
+    color: #00A0E9;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.project {
+    background-color: #111;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.tech-stack span {
+    background-color: #333;
+    color: #FFF;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.project-links {
+    margin-top: 1rem;
+}
+
+.project-links a {
+    color: #ffffff;
+    background-color: #0077be;
+    padding: 2px 4px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.project-links a:hover {
+    background-color: #005a82;
+}
+
+/* 新しく追加したスタイル */
+.filmstrip-comparison {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.filmstrip {
+    width: 100%;
+}
+
+.filmstrip img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
