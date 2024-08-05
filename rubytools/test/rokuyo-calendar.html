@@ -153,6 +153,21 @@
             border-radius: 5px;
         }
 
+        .select-container {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .select-container label {
+            margin-right: 5px;
+        }
+
+        select {
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
         @media screen and (max-width: 600px) {
             .calendar {
                 grid-template-columns: repeat(7, 1fr);
@@ -181,8 +196,12 @@
         <h1>Ruby Tools 六曜/大安カレンダー</h1>
 
         <div class="controls">
-            <select id="year-select"></select>
-            <select id="month-select"></select>
+            <label for="year-select">年:</label>
+            <select id="year-select" aria-label="年を選択"></select>
+
+            <label for="month-select">月:</label>
+            <select id="month-select" aria-label="月を選択"></select>
+
             <button onclick="updateCalendar()">表示</button>
         </div>
 
@@ -485,6 +504,7 @@
         function populateYearSelect() {
             const yearSelect = document.getElementById('year-select');
             const currentYear = new Date().getFullYear();
+            yearSelect.innerHTML = ''; // Clear existing options
             for (let i = currentYear - 5; i <= currentYear + 5; i++) {
                 const option = document.createElement('option');
                 option.value = i;
@@ -496,6 +516,7 @@
 
         function populateMonthSelect() {
             const monthSelect = document.getElementById('month-select');
+            monthSelect.innerHTML = ''; // Clear existing options
             for (let i = 1; i <= 12; i++) {
                 const option = document.createElement('option');
                 option.value = i;
