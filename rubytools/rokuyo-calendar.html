@@ -17,33 +17,10 @@
             padding: 20px;
         }
 
-        .geometric-bg {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgICAgICAgICAgICAgPGRlZnM+CiAgICAgICAgICAgICAgICAgICAgPHBhdHRlcm4gaWQ9InNtYWxsR3JpZCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJudW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyMDQsIDUyLCA0NSwgMC4zKSIgc3Ryb2tlLXdpZHRoPSIwLjUiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8L3BhdHRlcm4+CiAgICAgICAgICAgICAgICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBwYXR0ZXJudW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgICAgICAgICAgICAgICAgICAgPHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9InVybCgjc21hbGxHcmlkKSI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNIDEwMCAwIEwgMCAwIDAgMTAwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjA0LCA1MiwgNDUsIDAuNSkiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvcGF0dGVybj4KICAgICAgICAgICAgICAgIDwvZGVmcz4KICAgICAgICAgICAgICAgIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiPjwvcmVjdD4KICAgICAgICAgICAgPC9zdmc+');
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: #cc3333;
-            text-align: center;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .controls select,
-        .controls button {
-            margin: 0 5px;
-            padding: 5px;
-        }
-
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            background-color: #f4f4f4;
             padding: 20px;
+            border-radius: 5px;
         }
 
         .calendar {
@@ -51,78 +28,164 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 5px;
             margin-top: 20px;
-            font-size: 16px;
-            min-height: 400px;
-            /* カレンダーの最小高さを設定 */
+        }
+
+        .calendar-day {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+            background-color: #fff;
+            overflow: hidden;
+            word-wrap: break-word;
         }
 
         .calendar-header {
             font-weight: bold;
-            text-align: center;
-            background-color: #f0f0f0;
+            background-color: #d0d0d0;
+            border: 1px solid #bbb;
             padding: 5px;
+            text-align: center;
         }
 
-        .calendar-day {
-            text-align: center;
-            padding: 5px;
-            border: 1px solid #ddd;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 60px;
+        .calendar-header.sunday {
+            background-color: #ffb3ba;
+            color: #800000;
         }
 
-        .calendar-day span {
+        .rokuyo,
+        .holiday {
+            font-size: 0.8em;
             display: block;
-            writing-mode: horizontal-tb;
-            text-orientation: mixed;
-            white-space: nowrap;
+        }
+
+        .sunday {
+            color: #d00000;
+        }
+
+        .holiday-day {
+            background-color: #f0f8ff;
+            /* Alice Blue */
+            color: #000080;
+            /* Navy */
         }
 
         .taian {
-            background-color: #ffcccc;
-            font-weight: bold;
+            background-color: #e6ffe6;
+            color: #006400;
         }
 
         .shakku {
-            background-color: #ffdddd;
+            background-color: #fff0e0;
+            color: #8b4513;
         }
 
         .sensho {
-            background-color: #ddffdd;
+            background-color: #e0f0ff;
+            color: #00008b;
         }
 
         .tomobiki {
-            background-color: #ddddff;
+            background-color: #f0e0ff;
+            color: #4b0082;
         }
 
         .senbu {
-            background-color: #ffffdd;
+            background-color: #ffe0d0;
+            color: #8b0000;
         }
 
         .butsumetsu {
-            background-color: #ddffff;
+            background-color: #e6e6e6;
+            color: #2f4f4f;
+        }
+
+        .rokuyo {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .holiday {
+            color: #d00000;
+            font-weight: bold;
+            background-color: #f0f8ff;
+            /* Alice Blue */
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #cc3333;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .home-button:hover {
+            background-color: #b22222;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        .controls button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #cc3333;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            background-color: #b22222;
         }
 
         .explanation {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 30px;
+            padding: 20px;
             background-color: #f9f9f9;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            max-width: 600px;
-            margin: 20px auto;
         }
 
-        @media (max-width: 600px) {
+        .select-container {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .select-container label {
+            margin-right: 5px;
+        }
+
+        select {
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        @media screen and (max-width: 600px) {
             .calendar {
-                font-size: 14px;
+                grid-template-columns: repeat(7, 1fr);
+                font-size: 0.8em;
             }
 
-            .calendar-day {
+            .calendar-day,
+            .calendar-header {
                 padding: 2px;
-                min-height: 50px;
+                min-height: 60px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .rokuyo,
+            .holiday {
+                font-size: 0.7em;
             }
         }
     </style>
@@ -133,12 +196,24 @@
         <h1>Ruby Tools 六曜/大安カレンダー</h1>
 
         <div class="controls">
-            <select id="year-select"></select>
-            <select id="month-select"></select>
+            <label for="year-select">年:</label>
+            <select id="year-select" aria-label="年を選択"></select>
+
+            <label for="month-select">月:</label>
+            <select id="month-select" aria-label="月を選択"></select>
+
             <button onclick="updateCalendar()">表示</button>
         </div>
 
-        <div id="calendar" class="calendar"></div>
+        <div id="calendar" class="calendar">
+            <div class="calendar-header sunday">日</div>
+            <div class="calendar-header">月</div>
+            <div class="calendar-header">火</div>
+            <div class="calendar-header">水</div>
+            <div class="calendar-header">木</div>
+            <div class="calendar-header">金</div>
+            <div class="calendar-header">土</div>
+        </div>
 
         <div class="explanation">
             <h2>六曜について</h2>
@@ -429,6 +504,7 @@
         function populateYearSelect() {
             const yearSelect = document.getElementById('year-select');
             const currentYear = new Date().getFullYear();
+            yearSelect.innerHTML = ''; // Clear existing options
             for (let i = currentYear - 5; i <= currentYear + 5; i++) {
                 const option = document.createElement('option');
                 option.value = i;
@@ -440,6 +516,7 @@
 
         function populateMonthSelect() {
             const monthSelect = document.getElementById('month-select');
+            monthSelect.innerHTML = ''; // Clear existing options
             for (let i = 1; i <= 12; i++) {
                 const option = document.createElement('option');
                 option.value = i;
@@ -457,17 +534,15 @@
 
         const style = document.createElement('style');
         style.textContent = `
-    .holiday {
-        display: block;
-        font-size: 0.8em;
-        color: #cc3333;
-    }
-    .sunday, .holiday-day {
-        color: #ff0000;
-    }
     .rokuyo {
-        font-size: 0.9em;
-    }
+    font-size: 0.8em;
+    color: #555; /* より濃い灰色に変更 */
+}
+
+.holiday {
+    font-size: 0.8em;
+    color: #d00; /* 濃い赤に変更 */
+}
 `;
         document.head.appendChild(style);
     </script>
