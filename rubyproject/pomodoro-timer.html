@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby Project - ポモドーロタイマー</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #cc3333;
+        }
+
+        #timer {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+
+        #status {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #cc3333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #aa2222;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .home-button {
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .home-button:hover {
+            background-color: #555;
+        }
+
+        .explanation {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ruby Project ポモドーロタイマー</h1>
+        <div id="timer">25:00</div>
+        <div id="status">準備完了</div>
+        <button id="startStop">開始</button>
+        <button id="reset">リセット</button>
+        <button id="stopAlarm" disabled>アラーム停止</button>
+        <div>
+            <p>ポモドーロ回数: <span id="pomodoro-count">0</span></p>
+        </div>
+        <a href="index.html" class="home-button">Ruby Projectホームに戻る</a>
+
+        <div class="explanation">
+            <h2>ポモドーロテクニックとは？</h2>
+            <p>ポモドーロテクニックは、1980年代にフランチェスコ・シリロによって考案された時間管理法です。以下の手順で行います：</p>
+            <ol>
+                <li>タスクを選択し、タイマーを25分にセットします。</li>
+                <li>タイマーが鳴るまで、集中してタスクに取り組みます。</li>
+                <li>タイマーが鳴ったら、短い休憩（5分）を取ります。</li>
+                <li>これを4回繰り返したら、長い休憩（15-30分）を取ります。</li>
+            </ol>
+            <p>この方法は、集中力を維持し、効率的に作業を進めるのに役立ちます。</p>
+        </div>
+    </div>
+
+    <audio id="notificationSound" loop>
+        <source src="alarm.mp3" />
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const timer = document.getElementById('timer');
+        const status = document.getElementById('status');
+        const startStopButton = document.getElementById('startStop');
+        const resetButton = document.getElementById('reset');
+        const stopAlarmButton = document.getElementById('stopAlarm');
+        const pomodoroCount = document.getElementById('pomodoro-count');
+        const notificationSound = document.getElementById('notificationSound');
+
+        let countdown;
+        let isRunning = false;
+        let timeLeft = 25 * 60;
+        let isBreak = false;
+        let cycle = 0;
+        let pomodoroCounter = 0;
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateStatus() {
+            if (isBreak) {
+                status.textContent = cycle === 4 ? "長い休憩" : "短い休憩";
+            } else {
+                status.textContent = `作業 (${cycle + 1}/4)`;
+            }
+        }
+
+        function playNotification() {
+            notificationSound.play();
+            stopAlarmButton.disabled = false;
+        }
+
+        function stopAlarm() {
+            notificationSound.pause();
+            notificationSound.currentTime = 0;
+            stopAlarmButton.disabled = true;
+        }
+
+        function startTimer() {
+            stopAlarm();
+            isRunning = true;
+            startStopButton.textContent = '停止';
+            countdown = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else {
+                    clearInterval(countdown);
+                    playNotification();
+                    isRunning = false;
+                    startStopButton.textContent = '開始';
+                    if (!isBreak) {
+                        cycle++;
+                        pomodoroCounter++;
+                        pomodoroCount.textContent = pomodoroCounter;
+                        if (cycle === 4) {
+                            timeLeft = 25 * 60;
+                            isBreak = true;
+                        } else {
+                            timeLeft = 5 * 60;
+                            isBreak = true;
+                        }
+                    } else {
+                        timeLeft = 25 * 60;
+                        isBreak = false;
+                        if (cycle === 4) {
+                            cycle = 0;
+                        }
+                    }
+                    updateStatus();
+                    updateDisplay();
+                }
+            }, 1000);
+        }
+
+        startStopButton.addEventListener('click', () => {
+            if (isRunning) {
+                clearInterval(countdown);
+                isRunning = false;
+                startStopButton.textContent = '開始';
+            } else {
+                startTimer();
+            }
+        });
+
+        resetButton.addEventListener('click', () => {
+            clearInterval(countdown);
+            stopAlarm();
+            isRunning = false;
+            timeLeft = 25 * 60;
+            isBreak = false;
+            cycle = 0;
+            pomodoroCounter = 0;
+            pomodoroCount.textContent = pomodoroCounter;
+            startStopButton.textContent = '開始';
+            status.textContent = '準備完了';
+            updateDisplay();
+        });
+
+        stopAlarmButton.addEventListener('click', stopAlarm);
+
+        updateDisplay();
+    </script>
+</body>
+
+</html>

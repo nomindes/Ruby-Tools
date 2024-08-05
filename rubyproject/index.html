@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby Project</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --ruby-red: #CC342D;
+            --ruby-dark: #91231F;
+            --ruby-light: #FF6B66;
+            --bg-dark: #0A0A0A;
+            --bg-light: #1A1A1A;
+            --text-light: #FFFFFF;
+            --text-dark: #CCCCCC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .header-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--ruby-red), var(--ruby-light));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 5s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .geometric-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.1;
+            transition: transform 0.5s ease-out;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background-color: var(--bg-light);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(204, 52, 45, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(204, 52, 45, 0.2);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--ruby-light);
+        }
+
+        p,
+        ul {
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--ruby-red);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--ruby-red);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--ruby-red);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--ruby-light);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--ruby-red);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--ruby-light);
+            transform: scale(1.05);
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .nav.hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .nav li {
+            margin: 0 1rem;
+        }
+
+        .nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: var(--ruby-light);
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: var(--bg-dark);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(204, 52, 45, 0.2);
+        }
+
+        .tool-card h3 {
+            color: var(--ruby-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            background-color: var(--ruby-red);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .tool-button:hover {
+            background-color: var(--ruby-light);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .nav ul {
+                flex-wrap: wrap;
+            }
+
+            .nav li {
+                margin: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <ul>
+            <li><a href="#about">概要</a></li>
+            <li><a href="#goals">目標</a></li>
+            <li><a href="#tools">Webツール</a></li>
+            <li><a href="#timeline">タイムライン</a></li>
+            <li><a href="#participate">参加</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <div class="geometric-bg">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(204, 52, 45, 0.3)" stroke-width="0.5" />
+                    </pattern>
+                    <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                        <rect width="100" height="100" fill="url(#smallGrid)" />
+                        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(204, 52, 45, 0.5)" stroke-width="1" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+        </div>
+        <div class="header-content">
+            <h1>Ruby Project</h1>
+            <p class="subtitle">全ての物事の効率化を求めています。</p>
+            <a href="#about" class="cta-button">詳細を見る</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="about" class="section">
+            <h2>プロジェクト概要</h2>
+            <p>Ruby
+                Projectは、日常生活からビジネスまで、あらゆる領域での効率化を追求する個人プロジェクトです。使いやすいWebツールやスマホアプリを開発し、ユーザーの生産性向上を支援します。
+            </p>
+        </section>
+
+        <section id="goals" class="section">
+            <h2>目標</h2>
+            <ul>
+                <li>直感的で使いやすいWebツールの開発</li>
+                <li>日常を効率化するスマホアプリの作成</li>
+                <li>ユーザーのFBを活かした改善</li>
+                <li>効率化の最善の共有と普及</li>
+            </ul>
+        </section>
+
+        <section id="tools" class="section">
+            <h2>Webツール一覧</h2>
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <div>
+                        <h3>ポモドーロタイマー</h3>
+                        <p>集中力を高める時間管理テクニック。</p>
+                    </div>
+                    <a href="pomodoro-timer.html" class="tool-button">ツールを開く</a>
+                </div>
+                <div class="tool-card">
+                    <div>
+                        <h3>抽選ツール</h3>
+                        <p>数字やリストから、公平に選択する抽選ツール。</p>
+                    </div>
+                    <a href="lottery.html" class="tool-button">ツールを開く</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="section">
+            <h2>プロジェクトタイムライン</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年8月5日</div>
+                    <div class="timeline-content">Ruby
+                        Projectの構想開始。効率化ツールの開発計画を策定。プロジェクトウェブサイトの制作完了。<br>ポモドーロタイマーをリリース。<br>抽選ツールをリリース。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="participate" class="section">
+            <h2>参加とフィードバック</h2>
+            <p>Ruby Projectは、効率化に関心のある皆様のアイデアとFBを歓迎します。ベータテスターとして参加いただくことで、より良いツール開発に貢献できます。一緒に、日々の生産性を向上させましょう。
+            </p>
+            <ul>
+                <li>アイデアの提案: <a href="mailto:nomincoding@gmail.com">nomincoding@gmail.com</a></li>
+                <li>最新情報: <a href="https://x.com/nomin_coding" target="_blank">@nomin_coding</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section, .timeline-item, .tool-card').forEach(item => {
+            observer.observe(item);
+        });
+
+        let lastScrollTop = 0;
+        const nav = document.querySelector('.nav');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                nav.classList.add('hidden');
+            } else {
+                nav.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const geometricBg = document.querySelector('.geometric-bg');
+            geometricBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
