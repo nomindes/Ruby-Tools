@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ruby Tools IPアドレス確認ツール</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -79,8 +78,12 @@
             margin-top: 20px;
             border-radius: 5px;
         }
-    </style>
 
+        .leaflet-container {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z50VK6QXRX"></script>
     <script>
@@ -108,7 +111,6 @@
         <a href="index.html" class="home-button">Ruby Toolsホームに戻る</a>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         let map;
         document.getElementById('check-button').addEventListener('click', checkIP);
@@ -129,9 +131,25 @@
                 document.getElementById('isp').textContent = data.org;
                 document.getElementById('timezone').textContent = data.timezone;
 
-                initMap(data.latitude, data.longitude);
+                loadLeaflet(data.latitude, data.longitude);
             } catch (error) {
                 console.error('Error fetching IP data:', error);
+            }
+        }
+
+        function loadLeaflet(lat, lng) {
+            if (typeof L === 'undefined') {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js';
+                script.onload = () => initMap(lat, lng);
+                document.body.appendChild(script);
+
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css';
+                document.head.appendChild(link);
+            } else {
+                initMap(lat, lng);
             }
         }
 
@@ -144,7 +162,7 @@
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
             L.marker([lat, lng]).addTo(map)
-                .bindPopup('あなたの位置(IPからの位置情報)')
+                .bindPopup('あなたの位置(IPからの位置)')
                 .openPopup();
         }
 
