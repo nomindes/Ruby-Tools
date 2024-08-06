@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby Tools - IPアドレス住所検索ツール</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #cc3333;
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+        }
+
+        button {
+            background-color: #cc3333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+        }
+
+        button:hover {
+            background-color: #aa2222;
+        }
+
+        #resultContainer {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        #map {
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .home-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #cc3333;
+            text-decoration: none;
+        }
+
+        .explanation {
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z50VK6QXRX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-Z50VK6QXRX');
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ruby Tools IPアドレス住所検索ツール</h1>
+        <div class="input-group">
+            <input type="text" id="ipInput" placeholder="IPアドレスを入力してください">
+            <button onclick="lookupIP()">検索</button>
+        </div>
+        <div id="loading">検索中...</div>
+        <div id="resultContainer">
+            <p>ここに検索結果が表示されます。上の入力欄にIPアドレスを入力し、「検索」ボタンをクリックしてください。</p>
+        </div>
+        <div id="map"></div>
+        <a href="index.html" class="home-button">Ruby Toolsホームに戻る</a>
+
+        <div class="explanation">
+            <h2>IPアドレス住所検索ツールについて</h2>
+            <p>このツールを使用すると、IPアドレスから地理的位置情報を取得できます。以下の情報が表示されます：</p>
+            <ul>
+                <li>国</li>
+                <li>地域</li>
+                <li>市区町村</li>
+                <li>郵便番号</li>
+                <li>緯度・経度</li>
+                <li>タイムゾーン</li>
+            </ul>
+            <p>また、OpenStreetMapを使用して、IPアドレスの位置を地図上で視覚化します。</p>
+        </div>
+    </div>
+
+    <script>
+        let map;
+        let marker;
+
+        function initMap(lat, lon) {
+            if (map) {
+                map.remove();
+            }
+            map = L.map('map').setView([lat, lon], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            marker = L.marker([lat, lon]).addTo(map);
+        }
+
+        function lookupIP() {
+            const ip = document.getElementById('ipInput').value;
+            const loadingDiv = document.getElementById('loading');
+            const resultContainer = document.getElementById('resultContainer');
+
+            if (!ip) {
+                resultContainer.innerHTML = "<p>エラー: IPアドレスを入力してください。</p>";
+                return;
+            }
+
+            loadingDiv.style.display = 'block';
+            resultContainer.innerHTML = '';
+
+            fetch(`https://ipapi.co/${ip}/json/`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('ネットワークエラーが発生しました');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        throw new Error(data.reason || '不明なエラーが発生しました');
+                    }
+
+                    const result = `
+                        <h3>検索結果:</h3>
+                        <p>IP: ${data.ip}</p>
+                        <p>国: ${data.country_name}</p>
+                        <p>地域: ${data.region}</p>
+                        <p>市区町村: ${data.city}</p>
+                        <p>郵便番号: ${data.postal}</p>
+                        <p>緯度: ${data.latitude}</p>
+                        <p>経度: ${data.longitude}</p>
+                        <p>タイムゾーン: ${data.timezone}</p>
+                    `;
+                    resultContainer.innerHTML = result;
+
+                    initMap(data.latitude, data.longitude);
+                })
+                .catch(error => {
+                    resultContainer.innerHTML = `<p>エラー: ${error.message}</p><p>正しいIPアドレスを入力しているか確認してください。</p>`;
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    loadingDiv.style.display = 'none';
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => initMap(35.6895, 139.6917));
+    </script>
+</body>
+
+</html>
