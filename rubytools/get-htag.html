@@ -55,13 +55,18 @@
         }
 
         .home-button {
-            background-color: #2E7D32;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #cc3333;
             color: white;
+            text-decoration: none;
+            border-radius: 4px;
             font-weight: bold;
+            margin-top: 20px;
         }
 
         .home-button:hover {
-            background-color: #1B5E20;
+            background-color: #aa2222;
         }
     </style>
     <!-- Google tag (gtag.js) -->
@@ -76,7 +81,7 @@
 </head>
 
 <body>
-    <h1>Ruby Tools シンプルな見出し/hタグ抽出ツール</h1>
+    <h1>Ruby Tools 見出し/hタグ抽出ツール</h1>
     <input type="url" id="url-input" placeholder="URLを入力してください" required>
     <button onclick="extractHeadings()">見出しを抽出</button>
     <input type="text" id="filter" placeholder="見出しを検索" onkeyup="filterHeadings()">
