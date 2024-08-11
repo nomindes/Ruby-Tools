@@ -226,6 +226,10 @@ let wordList = [
     { word: '左遷錬金術師の辺境暮らし元エリートは二度目の人生も失敗したので辺境でのんびりとやり直すことにしました', furigana: 'させんれんきんじゅつしのへんきょうぐらしもとえりーとはにどめのじんせいもしっぱいしたのでへんきょうでのんびりとやりなおすことにしました' },
     { word: '何回ぶつかるのこれ', furigana: 'なんかいぶつかるのこれ' },
     { word: 'ねえだから俺の話聞いてた？', furigana: 'ねえだからおれのはなしきいてた？' },
+    { word: 'いやガイジだろ', furigana: 'いやがいじだろ' },
+    { word: 'しねやガイジ', furigana: 'しねやがいじ' },
+    { word: 'いやこいつガイジだろ', furigana: 'いやこいつがいじだろ' },
+    { word: 'いやガイジ', furigana: 'いやがいじ' },
 ];
 
 function debug(message) {
@@ -458,8 +462,10 @@ function updateDisplay(inputLength) {
 }
 
 function updateRomajiDisplay() {
-    displayedRomaji = possibleInputs.slice(currentInputIndex).map(inputs => inputs[0]).join('');
-    romajiElement.textContent = displayedRomaji;
+    const completedRomaji = possibleInputs.slice(0, currentInputIndex).map(inputs => `<span class="completed">${inputs[0]}</span>`).join('');
+    const currentRomaji = possibleInputs[currentInputIndex] ? `<span class="current">${possibleInputs[currentInputIndex][0]}</span>` : '';
+    const remainingRomaji = possibleInputs.slice(currentInputIndex + 1).map(inputs => inputs[0]).join('');
+    romajiElement.innerHTML = completedRomaji + currentRomaji + remainingRomaji;
 }
 
 function processInput(input) {
@@ -506,6 +512,7 @@ function processInput(input) {
     }
 
     updateScore();
+    updateRomajiDisplay();
     isProcessingInput = false;
 }
 
