@@ -1,2 +1,2 @@
-# nomin.jp
-https://nomin.jp/
+# Ruby Tools
+https://nomin.jp/rubytools/
