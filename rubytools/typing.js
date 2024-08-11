@@ -17,6 +17,10 @@ const startButton = document.getElementById('startButton');
 const restartButton = document.getElementById('restartButton');
 const resetButton = document.getElementById('resetButton');
 const modeDisplay = document.getElementById('modeDisplay');
+const hideFuriganaCheckbox = document.getElementById('hideFurigana');
+const openSettingsButton = document.getElementById('openSettingsButton');
+const closeSettingsButton = document.getElementById('closeSettingsButton');
+const settingsModal = document.getElementById('settingsModal');
 
 let currentMode = '';
 let currentText = '';
@@ -241,6 +245,17 @@ document.getElementById('hiraganaMode').addEventListener('click', () => setMode(
 document.getElementById('alphabetMode').addEventListener('click', () => setMode('alphabet'));
 document.getElementById('allRandomMode').addEventListener('click', () => setMode('allRandom'));
 
+function loadSettings() {
+    const hideFurigana = localStorage.getItem('hideFurigana');
+    if (hideFurigana !== null) {
+        hideFuriganaCheckbox.checked = hideFurigana === 'true';
+    }
+}
+
+function saveSettings() {
+    localStorage.setItem('hideFurigana', hideFuriganaCheckbox.checked);
+}
+
 function setMode(mode) {
     currentMode = mode;
     resetGame();
@@ -366,12 +381,14 @@ function unescapeHtml(safe) {
 function displayText() {
     targetTextElement.innerHTML = `<div class="word">${escapeHtml(currentText)}</div>`;
 
-    if (currentMode === 'word') {
+    if (currentMode === 'word' && !hideFuriganaCheckbox.checked) {
         furiganaElement.innerHTML = `
             <div class="hiragana">${escapeHtml(currentFurigana)}</div>
         `;
+        furiganaElement.style.display = 'block';
     } else {
         furiganaElement.innerHTML = '';
+        furiganaElement.style.display = 'none';
     }
 
     if (!romajiElement) {
@@ -557,7 +574,31 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+hideFuriganaCheckbox.addEventListener('change', () => {
+    if (currentMode === 'word') {
+        displayText();
+    }
+    saveSettings();
+});
+
+openSettingsButton.addEventListener('click', () => {
+    settingsModal.style.display = 'block';
+});
+
+closeSettingsButton.addEventListener('click', () => {
+    settingsModal.style.display = 'none';
+    saveSettings();
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === settingsModal) {
+        settingsModal.style.display = 'none';
+        saveSettings();
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     debug('Game initialized');
+    loadSettings();
     setMode('word');
 });
