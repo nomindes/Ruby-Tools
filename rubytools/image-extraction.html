@@ -208,20 +208,30 @@
 
     <script>
         (function () {
-            var RubyToolsAdBlockDetector = {
-                detectAdBlock: function (callback) {
-                    var testAd = document.createElement('div');
-                    testAd.innerHTML = '&nbsp;';
-                    testAd.className = 'adsbox';
-                    document.body.appendChild(testAd);
-                    window.setTimeout(function () {
-                        if (testAd.offsetHeight === 0) {
-                            callback(true);
-                        } else {
-                            callback(false);
+            var RubyToolsAdvancedAdBlockDetector = {
+                detected: false,
+
+                createBaitElement: function () {
+                    var bait = document.createElement('div');
+                    bait.setAttribute('class', 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links');
+                    bait.setAttribute('style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;');
+                    document.body.appendChild(bait);
+                    return bait;
+                },
+
+                checkBait: function (bait) {
+                    var detected = false;
+                    if (window.getComputedStyle !== undefined) {
+                        var baitTemp = window.getComputedStyle(bait, null);
+                        if (baitTemp && (baitTemp.getPropertyValue('display') == 'none' || baitTemp.getPropertyValue('visibility') == 'hidden')) {
+                            detected = true;
                         }
-                        testAd.remove();
-                    }, 100);
+                    }
+                    return detected;
+                },
+
+                checkAdsensePresence: function () {
+                    return (typeof window.google_ad_status != 'undefined') || (typeof window.google_ad_slot != 'undefined');
                 },
 
                 blockUser: function () {
@@ -234,20 +244,29 @@
             `;
                 },
 
+                detectAdBlock: function () {
+                    var bait = this.createBaitElement();
+                    this.detected = this.checkBait(bait) || !this.checkAdsensePresence();
+                    document.body.removeChild(bait);
+
+                    if (this.detected) {
+                        this.blockUser();
+                    }
+                },
+
                 init: function () {
-                    this.detectAdBlock(function (usingAdBlock) {
-                        if (usingAdBlock) {
-                            RubyToolsAdBlockDetector.blockUser();
-                        }
-                    });
+                    var self = this;
+                    if (document.readyState === "loading") {
+                        document.addEventListener("DOMContentLoaded", function () {
+                            self.detectAdBlock();
+                        });
+                    } else {
+                        self.detectAdBlock();
+                    }
                 }
             };
 
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
-            } else {
-                RubyToolsAdBlockDetector.init();
-            }
+            RubyToolsAdvancedAdBlockDetector.init();
         })();
     </script>
 
