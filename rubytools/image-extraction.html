@@ -207,6 +207,51 @@
     </div>
 
     <script>
+        (function () {
+            var RubyToolsAdBlockDetector = {
+                detectAdBlock: function (callback) {
+                    var testAd = document.createElement('div');
+                    testAd.innerHTML = '&nbsp;';
+                    testAd.className = 'adsbox';
+                    document.body.appendChild(testAd);
+                    window.setTimeout(function () {
+                        if (testAd.offsetHeight === 0) {
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                        testAd.remove();
+                    }, 100);
+                },
+
+                blockUser: function () {
+                    document.body.innerHTML = `
+                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
+                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
+                    <p>ご協力ありがとうございます。</p>
+                </div>
+            `;
+                },
+
+                init: function () {
+                    this.detectAdBlock(function (usingAdBlock) {
+                        if (usingAdBlock) {
+                            RubyToolsAdBlockDetector.blockUser();
+                        }
+                    });
+                }
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
+            } else {
+                RubyToolsAdBlockDetector.init();
+            }
+        })();
+    </script>
+
+    <script>
         function validateAndFixURL(url) {
             url = url.trim();
             if (!/^https?:\/\//i.test(url)) {
