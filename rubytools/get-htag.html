@@ -95,6 +95,63 @@
         type="text/javascript">(admaxads = window.admaxads || []).push({ admax_id: "1dc7f0b7b9673a24bd8cb130a0bce2c5", type: "banner" });</script>
     <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
     <!-- admax -->
+    <script>
+        (function () {
+            var RubyToolsAdBlockDetector = {
+                adElementId: '1dc7f0b7b9673a24bd8cb130a0bce2c5',
+                detectionDelay: 2000,
+
+                isAdBlockEnabled: function () {
+                    var adElement = document.querySelector('.admax-ads[data-admax-id="' + this.adElementId + '"]');
+                    if (!adElement) {
+                        console.warn('指定されたdata-admax-idを持つ広告要素が見つかりません。');
+                        return false;
+                    }
+
+                    var rect = adElement.getBoundingClientRect();
+                    var isHidden = rect.height === 0 ||
+                        window.getComputedStyle(adElement).display === 'none' ||
+                        window.getComputedStyle(adElement).visibility === 'hidden';
+
+                    var hasAdMaxContent = adElement.querySelector('iframe') !== null ||
+                        adElement.querySelector('ins') !== null;
+
+                    return isHidden || !hasAdMaxContent;
+                },
+
+                blockUser: function () {
+                    document.body.innerHTML = `
+                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
+                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
+                    <p>ご協力ありがとうございます。</p>
+                </div>
+            `;
+                },
+
+                detectAdBlock: function () {
+                    if (this.isAdBlockEnabled()) {
+                        this.blockUser();
+                    } else {
+                        console.log('AdBlockは検出されませんでした。');
+                    }
+                },
+
+                init: function () {
+                    var self = this;
+                    setTimeout(function () {
+                        self.detectAdBlock();
+                    }, this.detectionDelay);
+                }
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
+            } else {
+                RubyToolsAdBlockDetector.init();
+            }
+        })();
+    </script>
 
     <script>
         let headings = [];

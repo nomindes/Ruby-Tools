@@ -207,11 +207,10 @@
     </div>
 
     <script>
-        // 実際の広告要素を使用したAdBlock検出スクリプト
         (function () {
             var RubyToolsAdBlockDetector = {
                 adElementId: '1dc7f0b7b9673a24bd8cb130a0bce2c5',
-                detectionDelay: 2000, // ミリ秒単位での検出遅延
+                detectionDelay: 2000,
 
                 isAdBlockEnabled: function () {
                     var adElement = document.querySelector('.admax-ads[data-admax-id="' + this.adElementId + '"]');
@@ -225,7 +224,6 @@
                         window.getComputedStyle(adElement).display === 'none' ||
                         window.getComputedStyle(adElement).visibility === 'hidden';
 
-                    // AdMaxスクリプトによって追加される要素をチェック
                     var hasAdMaxContent = adElement.querySelector('iframe') !== null ||
                         adElement.querySelector('ins') !== null;
 
@@ -252,14 +250,12 @@
 
                 init: function () {
                     var self = this;
-                    // 広告の読み込みを待つために少し遅延させる
                     setTimeout(function () {
                         self.detectAdBlock();
                     }, this.detectionDelay);
                 }
             };
 
-            // DOMContentLoadedイベントで実行
             if (document.readyState === "loading") {
                 document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
             } else {
