@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Ruby Toolsの画像圧縮ツールは、簡単な操作で画像ファイルのサイズを縮小できます。ブラウザ上で動作し、高速で効率的な圧縮を実現します。ファイルサイズを抑えつつ、画質のバランスを調整可能です。">
+    <title>Ruby Tools - 画像圧縮ツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #cc3333;
+            text-align: center;
+        }
+
+        #dropArea {
+            border: 2px dashed #ccc;
+            border-radius: 20px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        #dropArea.highlight {
+            border-color: #cc3333;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+
+        #compressButton,
+        #downloadButton {
+            background-color: #cc3333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        #compressButton:hover,
+        #downloadButton:hover {
+            background-color: #aa2222;
+        }
+
+        #compressButton:disabled,
+        #downloadButton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #compressionLevel {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #cc3333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .home-button:hover {
+            background-color: #aa2222;
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z50VK6QXRX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-Z50VK6QXRX');
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ruby Tools 画像圧縮ツール</h1>
+        <div id="dropArea">
+            ここに画像をドラッグ&ドロップまたはクリックしてアップロード
+        </div>
+        <input type="file" id="fileInput" style="display: none;" accept="image/*">
+        <img id="imagePreview" style="display: none;">
+        <div>
+            <label for="compressionLevel">圧縮レベル: <span id="compressionLevelValue">20</span>%</label>
+            <input type="range" id="compressionLevel" min="0" max="100" value="20">
+        </div>
+        <button id="compressButton" disabled>圧縮</button>
+        <button id="downloadButton" disabled>ダウンロード</button>
+        <div id="result"></div>
+        <a href="index.html" class="home-button">Ruby Toolsホームに戻る</a>
+        <!-- admax -->
+        <div class="admax-ads" data-admax-id="1dc7f0b7b9673a24bd8cb130a0bce2c5"
+            style="display:inline-block;width:468px;height:60px;"></div>
+        <script
+            type="text/javascript">(admaxads = window.admaxads || []).push({ admax_id: "1dc7f0b7b9673a24bd8cb130a0bce2c5", type: "banner" });</script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+        <!-- admax -->
+    </div>
+
+    <script>
+        (function () {
+            var RubyToolsAdBlockDetector = {
+                adElementId: '1dc7f0b7b9673a24bd8cb130a0bce2c5',
+                detectionDelay: 2000,
+
+                isAdBlockEnabled: function () {
+                    var adElement = document.querySelector('.admax-ads[data-admax-id="' + this.adElementId + '"]');
+                    if (!adElement) {
+                        console.warn('指定されたdata-admax-idを持つ広告要素が見つかりません。');
+                        return false;
+                    }
+
+                    var rect = adElement.getBoundingClientRect();
+                    var isHidden = rect.height === 0 ||
+                        window.getComputedStyle(adElement).display === 'none' ||
+                        window.getComputedStyle(adElement).visibility === 'hidden';
+
+                    var hasAdMaxContent = adElement.querySelector('iframe') !== null ||
+                        adElement.querySelector('ins') !== null;
+
+                    return isHidden || !hasAdMaxContent;
+                },
+
+                blockUser: function () {
+                    document.body.innerHTML = `
+                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
+                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
+                    <p>ご協力ありがとうございます。</p>
+                </div>
+            `;
+                },
+
+                detectAdBlock: function () {
+                    if (this.isAdBlockEnabled()) {
+                        this.blockUser();
+                    } else {
+                        console.log('AdBlockは検出されませんでした。');
+                    }
+                },
+
+                init: function () {
+                    var self = this;
+                    setTimeout(function () {
+                        self.detectAdBlock();
+                    }, this.detectionDelay);
+                }
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
+            } else {
+                RubyToolsAdBlockDetector.init();
+            }
+        })();
+    </script>
+
+    <script>
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const compressButton = document.getElementById('compressButton');
+        const downloadButton = document.getElementById('downloadButton');
+        const compressionLevel = document.getElementById('compressionLevel');
+        const compressionLevelValue = document.getElementById('compressionLevelValue');
+        const resultDiv = document.getElementById('result');
+
+        let originalImage = null;
+        let compressedImage = null;
+
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropArea.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            dropArea.classList.remove('highlight');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        fileInput.addEventListener('change', function () {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                        originalImage = new Image();
+                        originalImage.src = e.target.result;
+                        originalImage.onload = function () {
+                            compressButton.disabled = false;
+                            resultDiv.textContent = `元の画像サイズ: ${formatBytes(file.size)}`;
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('画像ファイルを選択してください。');
+                }
+            }
+        }
+
+        compressionLevel.addEventListener('input', function () {
+            compressionLevelValue.textContent = this.value;
+        });
+
+        compressButton.addEventListener('click', compressImage);
+
+        function compressImage() {
+            const quality = 1 - (compressionLevel.value / 100);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const maxSize = 1920;
+            let width = originalImage.width;
+            let height = originalImage.height;
+            if (width > height) {
+                if (width > maxSize) {
+                    height *= maxSize / width;
+                    width = maxSize;
+                }
+            } else {
+                if (height > maxSize) {
+                    width *= maxSize / height;
+                    height = maxSize;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.drawImage(originalImage, 0, 0, width, height);
+
+            canvas.toBlob(function (blob) {
+                compressedImage = blob;
+                const compressedSize = blob.size;
+                const compressionRatio = (1 - compressedSize / originalImage.src.length) * 100;
+                resultDiv.textContent = `圧縮後のサイズ: ${formatBytes(compressedSize)} (${compressionRatio.toFixed(2)}% 削減)`;
+                downloadButton.disabled = false;
+            }, 'image/jpeg', quality);
+        }
+
+        downloadButton.addEventListener('click', function () {
+            if (compressedImage) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(compressedImage);
+                link.download = 'compressed_image.jpg';
+                link.click();
+            }
+        });
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+
+</html>
