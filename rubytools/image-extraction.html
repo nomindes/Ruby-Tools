@@ -208,65 +208,91 @@
 
     <script>
         (function () {
-            var RubyToolsAdvancedAdBlockDetector = {
-                detected: false,
+            var RubyToolsInnovativeAdBlockDetector = {
+                detectionComplete: false,
+                usingAdBlock: false,
 
-                createBaitElement: function () {
-                    var bait = document.createElement('div');
-                    bait.setAttribute('class', 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links');
-                    bait.setAttribute('style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;');
-                    document.body.appendChild(bait);
-                    return bait;
+                createFakeAd: function () {
+                    var fakeAd = document.createElement('div');
+                    fakeAd.className = 'textads banner-ads banner_ads ad-unit ad-zone ad-space adsbox';
+                    fakeAd.style.height = '1px';
+                    fakeAd.style.width = '1px';
+                    fakeAd.style.position = 'absolute';
+                    fakeAd.style.left = '-10000px';
+                    fakeAd.style.top = '-1000px';
+                    document.body.appendChild(fakeAd);
+                    return fakeAd;
                 },
 
-                checkBait: function (bait) {
-                    var detected = false;
-                    if (window.getComputedStyle !== undefined) {
-                        var baitTemp = window.getComputedStyle(bait, null);
-                        if (baitTemp && (baitTemp.getPropertyValue('display') == 'none' || baitTemp.getPropertyValue('visibility') == 'hidden')) {
-                            detected = true;
-                        }
+                simulateAdRequest: function () {
+                    var script = document.createElement('script');
+                    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+                    script.onerror = this.handleAdBlocked.bind(this);
+                    script.onload = this.handleAdLoaded.bind(this);
+                    document.body.appendChild(script);
+
+                    setTimeout(this.handleTimeout.bind(this), 2000);
+                },
+
+                handleAdBlocked: function () {
+                    if (!this.detectionComplete) {
+                        this.detectionComplete = true;
+                        this.usingAdBlock = true;
+                        this.takeAction();
                     }
-                    return detected;
                 },
 
-                checkAdsensePresence: function () {
-                    return (typeof window.google_ad_status != 'undefined') || (typeof window.google_ad_slot != 'undefined');
+                handleAdLoaded: function () {
+                    if (!this.detectionComplete) {
+                        this.detectionComplete = true;
+                        this.usingAdBlock = false;
+                    }
                 },
 
-                blockUser: function () {
-                    document.body.innerHTML = `
-                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
-                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
-                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
-                    <p>ご協力ありがとうございます。</p>
-                </div>
-            `;
+                handleTimeout: function () {
+                    if (!this.detectionComplete) {
+                        this.detectionComplete = true;
+                        this.usingAdBlock = true;
+                        this.takeAction();
+                    }
                 },
 
-                detectAdBlock: function () {
-                    var bait = this.createBaitElement();
-                    this.detected = this.checkBait(bait) || !this.checkAdsensePresence();
-                    document.body.removeChild(bait);
+                checkFakeAd: function (fakeAd) {
+                    var rect = fakeAd.getBoundingClientRect();
+                    if (rect.top === 0 && rect.left === 0) {
+                        this.usingAdBlock = true;
+                        this.takeAction();
+                    }
+                },
 
-                    if (this.detected) {
-                        this.blockUser();
+                takeAction: function () {
+                    if (this.usingAdBlock) {
+                        document.body.innerHTML = `
+                    <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                        <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
+                        <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
+                        <p>ご協力ありがとうございます。</p>
+                    </div>
+                `;
                     }
                 },
 
                 init: function () {
-                    var self = this;
-                    if (document.readyState === "loading") {
-                        document.addEventListener("DOMContentLoaded", function () {
-                            self.detectAdBlock();
-                        });
-                    } else {
-                        self.detectAdBlock();
-                    }
+                    var fakeAd = this.createFakeAd();
+                    this.simulateAdRequest();
+
+                    setTimeout(() => {
+                        this.checkFakeAd(fakeAd);
+                        document.body.removeChild(fakeAd);
+                    }, 100);
                 }
             };
 
-            RubyToolsAdvancedAdBlockDetector.init();
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", RubyToolsInnovativeAdBlockDetector.init.bind(RubyToolsInnovativeAdBlockDetector));
+            } else {
+                RubyToolsInnovativeAdBlockDetector.init();
+            }
         })();
     </script>
 
