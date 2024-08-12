@@ -207,91 +207,63 @@
     </div>
 
     <script>
+        // 実際の広告要素を使用したAdBlock検出スクリプト
         (function () {
-            var RubyToolsInnovativeAdBlockDetector = {
-                detectionComplete: false,
-                usingAdBlock: false,
+            var RubyToolsAdBlockDetector = {
+                adElementId: '1dc7f0b7b9673a24bd8cb130a0bce2c5',
+                detectionDelay: 2000, // ミリ秒単位での検出遅延
 
-                createFakeAd: function () {
-                    var fakeAd = document.createElement('div');
-                    fakeAd.className = 'textads banner-ads banner_ads ad-unit ad-zone ad-space adsbox';
-                    fakeAd.style.height = '1px';
-                    fakeAd.style.width = '1px';
-                    fakeAd.style.position = 'absolute';
-                    fakeAd.style.left = '-10000px';
-                    fakeAd.style.top = '-1000px';
-                    document.body.appendChild(fakeAd);
-                    return fakeAd;
-                },
-
-                simulateAdRequest: function () {
-                    var script = document.createElement('script');
-                    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-                    script.onerror = this.handleAdBlocked.bind(this);
-                    script.onload = this.handleAdLoaded.bind(this);
-                    document.body.appendChild(script);
-
-                    setTimeout(this.handleTimeout.bind(this), 2000);
-                },
-
-                handleAdBlocked: function () {
-                    if (!this.detectionComplete) {
-                        this.detectionComplete = true;
-                        this.usingAdBlock = true;
-                        this.takeAction();
+                isAdBlockEnabled: function () {
+                    var adElement = document.querySelector('.admax-ads[data-admax-id="' + this.adElementId + '"]');
+                    if (!adElement) {
+                        console.warn('指定されたdata-admax-idを持つ広告要素が見つかりません。');
+                        return false;
                     }
+
+                    var rect = adElement.getBoundingClientRect();
+                    var isHidden = rect.height === 0 ||
+                        window.getComputedStyle(adElement).display === 'none' ||
+                        window.getComputedStyle(adElement).visibility === 'hidden';
+
+                    // AdMaxスクリプトによって追加される要素をチェック
+                    var hasAdMaxContent = adElement.querySelector('iframe') !== null ||
+                        adElement.querySelector('ins') !== null;
+
+                    return isHidden || !hasAdMaxContent;
                 },
 
-                handleAdLoaded: function () {
-                    if (!this.detectionComplete) {
-                        this.detectionComplete = true;
-                        this.usingAdBlock = false;
-                    }
+                blockUser: function () {
+                    document.body.innerHTML = `
+                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
+                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
+                    <p>ご協力ありがとうございます。</p>
+                </div>
+            `;
                 },
 
-                handleTimeout: function () {
-                    if (!this.detectionComplete) {
-                        this.detectionComplete = true;
-                        this.usingAdBlock = true;
-                        this.takeAction();
-                    }
-                },
-
-                checkFakeAd: function (fakeAd) {
-                    var rect = fakeAd.getBoundingClientRect();
-                    if (rect.top === 0 && rect.left === 0) {
-                        this.usingAdBlock = true;
-                        this.takeAction();
-                    }
-                },
-
-                takeAction: function () {
-                    if (this.usingAdBlock) {
-                        document.body.innerHTML = `
-                    <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
-                        <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
-                        <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
-                        <p>ご協力ありがとうございます。</p>
-                    </div>
-                `;
+                detectAdBlock: function () {
+                    if (this.isAdBlockEnabled()) {
+                        this.blockUser();
+                    } else {
+                        console.log('AdBlockは検出されませんでした。');
                     }
                 },
 
                 init: function () {
-                    var fakeAd = this.createFakeAd();
-                    this.simulateAdRequest();
-
-                    setTimeout(() => {
-                        this.checkFakeAd(fakeAd);
-                        document.body.removeChild(fakeAd);
-                    }, 100);
+                    var self = this;
+                    // 広告の読み込みを待つために少し遅延させる
+                    setTimeout(function () {
+                        self.detectAdBlock();
+                    }, this.detectionDelay);
                 }
             };
 
+            // DOMContentLoadedイベントで実行
             if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", RubyToolsInnovativeAdBlockDetector.init.bind(RubyToolsInnovativeAdBlockDetector));
+                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
             } else {
-                RubyToolsInnovativeAdBlockDetector.init();
+                RubyToolsAdBlockDetector.init();
             }
         })();
     </script>
