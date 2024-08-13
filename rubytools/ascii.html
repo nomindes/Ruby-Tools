@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="画像やテキストを簡単にアスキーアートに変換。多彩なフォントとフォーマットに対応し、ワンクリックでコピー可能。プログラマーやデザイナーに最適なツール。">
+    <title>Ruby Tools - アスキーアート生成ツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #cc3333;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+
+        #result {
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="file"],
+        input[type="text"],
+        input[type="number"],
+        button,
+        select {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #cc3333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #aa2222;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #cc3333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .home-button:hover {
+            background-color: #aa2222;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background-color: #cc3333;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        #copyButton {
+            margin-top: 10px;
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z50VK6QXRX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-Z50VK6QXRX');
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ruby Tools アスキーアート生成ツール</h1>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="image">画像から生成</div>
+            <div class="tab" data-tab="text">テキストから生成</div>
+        </div>
+
+        <div id="imageTab" class="tab-content active">
+            <div class="input-group">
+                <label for="imageInput">画像を選択:</label>
+                <input type="file" id="imageInput" accept="image/*">
+            </div>
+        </div>
+
+        <div id="textTab" class="tab-content">
+            <div class="input-group">
+                <label for="textInput">テキストを入力:</label>
+                <input type="text" id="textInput" placeholder="テキストを入力してください">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="fontSelect">フォント:</label>
+            <select id="fontSelect">
+                <option value="monospace">Monospace</option>
+                <option value="courier">Courier</option>
+                <option value="consolas">Consolas</option>
+                <option value="arial">Arial</option>
+                <option value="times new roman">Times New Roman</option>
+                <option value="georgia">Georgia</option>
+                <option value="verdana">Verdana</option>
+                <option value="palatino">Palatino</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="resolutionInput">解像度 (文字幅):</label>
+            <input type="number" id="resolutionInput" value="80" min="20" max="200">
+        </div>
+
+        <div class="input-group">
+            <label for="formatSelect">フォーマット:</label>
+            <select id="formatSelect">
+                <option value="plain">プレーンテキスト</option>
+                <option value="bash">Bashコメントアウト</option>
+                <option value="echo">echo</option>
+                <option value="html">HTML</option>
+                <option value="markdown">Markdown</option>
+                <option value="python">Pythonコメントアウト</option>
+                <option value="cpp">C++コメントアウト</option>
+                <option value="javascript">JavaScriptコメントアウト</option>
+            </select>
+        </div>
+
+        <button id="generateButton">アスキーアートを生成</button>
+
+        <div id="result"></div>
+
+        <button id="copyButton" style="display: none;">結果をコピー</button>
+
+        <a href="index.html" class="home-button">Ruby Toolsホームに戻る</a>
+
+        <!-- admax -->
+        <div class="admax-ads" data-admax-id="1dc7f0b7b9673a24bd8cb130a0bce2c5"
+            style="display:inline-block;width:468px;height:60px;"></div>
+        <script
+            type="text/javascript">(admaxads = window.admaxads || []).push({ admax_id: "1dc7f0b7b9673a24bd8cb130a0bce2c5", type: "banner" });</script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+        <!-- admax -->
+    </div>
+
+    <script>
+        (function () {
+            var RubyToolsAdBlockDetector = {
+                adElementId: '1dc7f0b7b9673a24bd8cb130a0bce2c5',
+                detectionDelay: 2000,
+
+                isAdBlockEnabled: function () {
+                    var adElement = document.querySelector('.admax-ads[data-admax-id="' + this.adElementId + '"]');
+                    if (!adElement) {
+                        console.warn('指定されたdata-admax-idを持つ広告要素が見つかりません。');
+                        return false;
+                    }
+
+                    var rect = adElement.getBoundingClientRect();
+                    var isHidden = rect.height === 0 ||
+                        window.getComputedStyle(adElement).display === 'none' ||
+                        window.getComputedStyle(adElement).visibility === 'hidden';
+
+                    var hasAdMaxContent = adElement.querySelector('iframe') !== null ||
+                        adElement.querySelector('ins') !== null;
+
+                    return isHidden || !hasAdMaxContent;
+                },
+
+                blockUser: function () {
+                    document.body.innerHTML = `
+                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
+                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
+                    <p>ご協力ありがとうございます。</p>
+                </div>
+            `;
+                },
+
+                detectAdBlock: function () {
+                    if (this.isAdBlockEnabled()) {
+                        this.blockUser();
+                    } else {
+                        console.log('AdBlockは検出されませんでした。');
+                    }
+                },
+
+                init: function () {
+                    var self = this;
+                    setTimeout(function () {
+                        self.detectAdBlock();
+                    }, this.detectionDelay);
+                }
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
+            } else {
+                RubyToolsAdBlockDetector.init();
+            }
+        })();
+    </script>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const textInput = document.getElementById('textInput');
+        const generateButton = document.getElementById('generateButton');
+        const result = document.getElementById('result');
+        const fontSelect = document.getElementById('fontSelect');
+        const resolutionInput = document.getElementById('resolutionInput');
+        const formatSelect = document.getElementById('formatSelect');
+        const copyButton = document.getElementById('copyButton');
+
+        const asciiChars = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.'];
+
+        function getAsciiChar(grayScale) {
+            return asciiChars[Math.floor((grayScale * (asciiChars.length - 1)) / 255)];
+        }
+
+        function imageToAscii(image, width) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const aspect = image.height / image.width;
+            canvas.width = width;
+            canvas.height = Math.floor(width * aspect);
+
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+
+            let ascii = '';
+            for (let y = 0; y < canvas.height; y += 2) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const offset = (y * canvas.width + x) * 4;
+                    const r = pixels[offset];
+                    const g = pixels[offset + 1];
+                    const b = pixels[offset + 2];
+                    const grayScale = 0.299 * r + 0.587 * g + 0.114 * b;
+                    ascii += getAsciiChar(grayScale);
+                }
+                ascii += '\n';
+            }
+
+            return ascii;
+        }
+
+        function textToAscii(text, width) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.font = '30px Arial';
+            const metrics = ctx.measureText(text);
+            const textWidth = metrics.width;
+            const height = 30;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.fillStyle = 'black';
+            ctx.font = '30px Arial';
+            ctx.fillText(text, (width - textWidth) / 2, 25);
+
+            const imageData = ctx.getImageData(0, 0, width, height);
+            const pixels = imageData.data;
+
+            let ascii = '';
+            for (let y = 0; y < height; y += 2) {
+                for (let x = 0; x < width; x++) {
+                    const offset = (y * width + x) * 4;
+                    const r = pixels[offset];
+                    const g = pixels[offset + 1];
+                    const b = pixels[offset + 2];
+                    const grayScale = 0.299 * r + 0.587 * g + 0.114 * b;
+                    ascii += getAsciiChar(255 - grayScale);
+                }
+                ascii += '\n';
+            }
+
+            return ascii;
+        }
+
+        function formatAsciiArt(ascii, format) {
+            switch (format) {
+                case 'bash':
+                    return ascii.split('\n').map(line => `# ${line}`).join('\n');
+                case 'echo':
+                    return ascii.split('\n').map(line => `echo "${line}"`).join('\n');
+                case 'html':
+                    return `<pre>${ascii}</pre>`;
+                case 'markdown':
+                    return '```\n' + ascii + '```';
+                case 'python':
+                    return ascii.split('\n').map(line => `# ${line}`).join('\n');
+                case 'cpp':
+                    return ascii.split('\n').map(line => `// ${line}`).join('\n');
+                case 'javascript':
+                    return ascii.split('\n').map(line => `// ${line}`).join('\n');
+                default:
+                    return ascii;
+            }
+        }
+
+        generateButton.addEventListener('click', () => {
+            const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            const width = parseInt(resolutionInput.value);
+            let ascii = '';
+
+            if (activeTab === 'image' && imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        ascii = imageToAscii(img, width);
+                        ascii = formatAsciiArt(ascii, formatSelect.value);
+                        result.style.fontFamily = fontSelect.value;
+                        result.textContent = ascii;
+                        copyButton.style.display = 'block';
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageInput.files[0]);
+            } else if (activeTab === 'text' && textInput.value) {
+                ascii = textToAscii(textInput.value, width);
+                ascii = formatAsciiArt(ascii, formatSelect.value);
+                result.style.fontFamily = fontSelect.value;
+                result.textContent = ascii;
+                copyButton.style.display = 'block';
+            } else {
+                result.textContent = 'エラー: 画像またはテキストを入力してください。';
+                copyButton.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(tab.getAttribute('data-tab') + 'Tab').classList.add('active');
+            });
+        });
+
+        copyButton.addEventListener('click', () => {
+            const textArea = document.createElement('textarea');
+            textArea.value = result.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('結果をクリップボードにコピーしました！');
+        });
+    </script>
+</body>
+
+</html>

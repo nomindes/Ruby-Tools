@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nomin.jp/rubytools/index.html</loc>
-    <lastmod>2024-08-13</lastmod>
+    <lastmod>2024-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -93,6 +93,12 @@
   <url>
     <loc>https://nomin.jp/rubytools/binary-converter.html</loc>
     <lastmod>2024-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nomin.jp/rubytools/ascii.html</loc>
+    <lastmod>2024-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
