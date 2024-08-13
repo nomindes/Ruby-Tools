@@ -95,7 +95,13 @@
             color: #cc3333;
             margin-top: 10px;
         }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
     </style>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z50VK6QXRX"></script>
     <script>
@@ -112,6 +118,7 @@
         <h1>Ruby Tools Base64エンコード/デコードツール</h1>
 
         <h2>テキストのエンコード/デコード</h2>
+        <label for="textInput">テキスト入力:</label>
         <textarea id="textInput" placeholder="ここにテキストを入力してください"></textarea>
         <div class="button-group">
             <button onclick="encodeText()">エンコード</button>
@@ -120,14 +127,15 @@
         </div>
 
         <h2>画像のエンコード/デコード</h2>
+        <label for="fileInput">画像ファイルを選択:</label>
         <input type="file" id="fileInput" class="file-input" accept="image/*">
         <div class="button-group">
             <button onclick="encodeImage()">画像をエンコード</button>
             <button onclick="decodeImage()">Base64を画像にデコード</button>
         </div>
 
-        <div id="result"></div>
-        <div id="copyFeedback">コピーしました！</div>
+        <div id="result" aria-live="polite"></div>
+        <div id="copyFeedback" aria-live="assertive">コピーしました！</div>
 
         <a href="index.html" class="home-button">Ruby Toolsホームに戻る</a>
 
@@ -235,6 +243,7 @@
             try {
                 const img = document.createElement('img');
                 img.src = input;
+                img.alt = "デコードされた画像";
                 document.getElementById('result').innerHTML = '';
                 document.getElementById('result').appendChild(img);
             } catch (e) {
