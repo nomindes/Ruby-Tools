@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ruby Toolsの16進数/HEX変換ツール。16進数、10進数、2進数、ASCII、カラーコードを相互変換。プログラマーやデザイナーに便利な多機能ツール。">
+    <title>Ruby Tools - 16進数/HEX変換ツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #cc3333;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #cc3333;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #aa2222;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 4px;
+        }
+
+        .color-preview {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ddd;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .home-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #cc3333;
+            text-decoration: none;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z50VK6QXRX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-Z50VK6QXRX');
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ruby Tools 16進数/HEX変換ツール</h1>
+
+        <div class="input-group">
+            <label for="inputValue">入力値:</label>
+            <input type="text" id="inputValue" placeholder="変換する値を入力">
+        </div>
+
+        <div class="input-group">
+            <label for="inputType">入力タイプ:</label>
+            <select id="inputType">
+                <option value="hex">16進数 (HEX)</option>
+                <option value="decimal">10進数</option>
+                <option value="binary">2進数</option>
+                <option value="ascii">ASCII文字列</option>
+                <option value="color">カラーコード</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="outputType">出力タイプ:</label>
+            <select id="outputType">
+                <option value="hex">16進数 (HEX)</option>
+                <option value="decimal">10進数</option>
+                <option value="binary">2進数</option>
+                <option value="ascii">ASCII文字列</option>
+                <option value="color">カラーコード</option>
+            </select>
+        </div>
+
+        <button onclick="convert()">変換</button>
+
+        <div id="result"></div>
+
+        <a href="index.html" class="home-button">Ruby Toolsホームに戻る</a>
+
+        <!-- admax -->
+        <div class="admax-ads" data-admax-id="1dc7f0b7b9673a24bd8cb130a0bce2c5"
+            style="display:inline-block;width:468px;height:60px;"></div>
+        <script
+            type="text/javascript">(admaxads = window.admaxads || []).push({ admax_id: "1dc7f0b7b9673a24bd8cb130a0bce2c5", type: "banner" });</script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+        <!-- admax -->
+    </div>
+
+    <script>
+        (function () {
+            var RubyToolsAdBlockDetector = {
+                adElementId: '1dc7f0b7b9673a24bd8cb130a0bce2c5',
+                detectionDelay: 2000,
+
+                isAdBlockEnabled: function () {
+                    var adElement = document.querySelector('.admax-ads[data-admax-id="' + this.adElementId + '"]');
+                    if (!adElement) {
+                        console.warn('指定されたdata-admax-idを持つ広告要素が見つかりません。');
+                        return false;
+                    }
+
+                    var rect = adElement.getBoundingClientRect();
+                    var isHidden = rect.height === 0 ||
+                        window.getComputedStyle(adElement).display === 'none' ||
+                        window.getComputedStyle(adElement).visibility === 'hidden';
+
+                    var hasAdMaxContent = adElement.querySelector('iframe') !== null ||
+                        adElement.querySelector('ins') !== null;
+
+                    return isHidden || !hasAdMaxContent;
+                },
+
+                blockUser: function () {
+                    document.body.innerHTML = `
+                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
+                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
+                    <p>ご協力ありがとうございます。</p>
+                </div>
+            `;
+                },
+
+                detectAdBlock: function () {
+                    if (this.isAdBlockEnabled()) {
+                        this.blockUser();
+                    } else {
+                        console.log('AdBlockは検出されませんでした。');
+                    }
+                },
+
+                init: function () {
+                    var self = this;
+                    setTimeout(function () {
+                        self.detectAdBlock();
+                    }, this.detectionDelay);
+                }
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
+            } else {
+                RubyToolsAdBlockDetector.init();
+            }
+        })();
+    </script>
+
+    <script>
+        function convert() {
+            const inputValue = document.getElementById('inputValue').value;
+            const inputType = document.getElementById('inputType').value;
+            const outputType = document.getElementById('outputType').value;
+            let result = '';
+
+            try {
+                let intermediateValue;
+
+                switch (inputType) {
+                    case 'hex':
+                        intermediateValue = parseInt(inputValue, 16);
+                        break;
+                    case 'decimal':
+                        intermediateValue = parseInt(inputValue, 10);
+                        break;
+                    case 'binary':
+                        intermediateValue = parseInt(inputValue, 2);
+                        break;
+                    case 'ascii':
+                        intermediateValue = inputValue.split('').map(char => char.charCodeAt(0));
+                        break;
+                    case 'color':
+                        intermediateValue = parseInt(inputValue.replace('#', ''), 16);
+                        break;
+                }
+
+                switch (outputType) {
+                    case 'hex':
+                        result = Array.isArray(intermediateValue)
+                            ? intermediateValue.map(v => v.toString(16).padStart(2, '0')).join('')
+                            : intermediateValue.toString(16);
+                        break;
+                    case 'decimal':
+                        result = Array.isArray(intermediateValue)
+                            ? intermediateValue.join(', ')
+                            : intermediateValue.toString(10);
+                        break;
+                    case 'binary':
+                        result = Array.isArray(intermediateValue)
+                            ? intermediateValue.map(v => v.toString(2).padStart(8, '0')).join(' ')
+                            : intermediateValue.toString(2);
+                        break;
+                    case 'ascii':
+                        result = Array.isArray(intermediateValue)
+                            ? intermediateValue.map(v => String.fromCharCode(v)).join('')
+                            : String.fromCharCode(intermediateValue);
+                        break;
+                    case 'color':
+                        result = '#' + (Array.isArray(intermediateValue) ? intermediateValue[0] : intermediateValue).toString(16).padStart(6, '0');
+                        break;
+                }
+
+                let outputHtml = `<p>結果: ${result}</p>`;
+
+                if (outputType === 'color' || (inputType === 'color' && outputType === 'hex')) {
+                    outputHtml += `<div class="color-preview" style="background-color: ${result};"></div>`;
+                }
+
+                document.getElementById('result').innerHTML = outputHtml;
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p>エラー: 無効な入力または変換です。</p>';
+            }
+        }
+    </script>
+</body>
+
+</html>
