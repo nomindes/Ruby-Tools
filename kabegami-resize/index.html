@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>壁紙リサイズ (Kabegami Resize) - Android用スマートフォン壁紙編集アプリ</title>
+    <meta name="description" content="壁紙リサイズは、横向き写真や音楽ジャケットをピッタリサイズの壁紙に変換できるAndroidアプリです。お気に入りの画像を簡単に理想の壁紙にできます。">
+    <meta name="keywords" content="壁紙リサイズ, Kabegami Resize, Android, スマートフォン壁紙, 画像編集, 横向き写真, 音楽ジャケット">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A4A4A;
+            --secondary-color: #757575;
+            --accent-color: #4A4A4A;
+            --bg-color: #F5F5F5;
+            --text-color: #333333;
+            --card-bg-color: #FFFFFF;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--card-bg-color);
+            color: var(--primary-color);
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow:
+                0 4px 6px -1px var(--shadow-color),
+                0 2px 4px -1px var(--shadow-color);
+        }
+
+        header .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow:
+                0 10px 15px -3px var(--shadow-color),
+                0 4px 6px -2px var(--shadow-color);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card.animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2');
+            background-size: cover;
+            background-position: center;
+            color: var(--card-bg-color);
+            text-align: center;
+            padding: 6rem 0;
+            margin-bottom: 2rem;
+            box-shadow:
+                0 10px 15px -3px var(--shadow-color),
+                0 4px 6px -2px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            transition: transform 0.5s ease;
+        }
+
+        .hero:hover::before {
+            transform: scale(1.05);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            border-bottom: none;
+            color: var(--card-bg-color);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .hero.animate h2 {
+            animation: fadeInDown 0.6s ease forwards 0.3s;
+        }
+
+        .hero.animate p {
+            animation: fadeInUp 0.6s ease forwards 0.6s;
+        }
+
+        .hero.animate .cta-button {
+            animation: fadeIn 0.6s ease forwards 0.9s;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            background-color: var(--card-bg-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow:
+                0 4px 6px -1px var(--shadow-color),
+                0 2px 4px -1px var(--shadow-color);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .feature-item.animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .feature-item:hover {
+            box-shadow:
+                0 10px 15px -3px var(--shadow-color),
+                0 4px 6px -2px var(--shadow-color);
+            transform: translateY(-5px);
+        }
+
+        .feature-item h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--card-bg-color);
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 4px 6px -1px var(--shadow-color),
+                0 2px 4px -1px var(--shadow-color);
+            opacity: 1;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-color);
+            box-shadow:
+                0 10px 15px -3px var(--shadow-color),
+                0 4px 6px -2px var(--shadow-color);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--card-bg-color);
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+            box-shadow:
+                0 -4px 6px -1px var(--shadow-color),
+                0 -2px 4px -1px var(--shadow-color);
+        }
+
+        .android-notice {
+            background-color: var(--secondary-color);
+            color: var(--card-bg-color);
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow:
+                0 4px 6px -1px var(--shadow-color),
+                0 2px 4px -1px var(--shadow-color);
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>壁紙リサイズ (Kabegami Resize)</h1>
+            <p>あなたの大切な思い出や好きな音楽を、いつでも壁紙で。</p>
+        </div>
+    </header>
+
+    <div class="android-notice">
+        このアプリは現在、Android端末のみに対応しています。
+    </div>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>理想の壁紙を、あなたの手で。</h2>
+                <p>横向きの写真も、音楽のジャケットも。<br>お気に入りの画像をピッタリサイズの壁紙に。</p>
+                <a href="#download" class="cta-button">無料でダウンロード</a>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>壁紙リサイズの特徴</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>横向き写真もピッタリ</h3>
+                    <p>風景写真や集合写真、全部入らなくて困っていませんか？スマート・クロッピング機能で、<span
+                            class="highlight">横向きの写真も自動でベストな形に調整</span>します。大切な思い出をそのままに。</p>
+                </div>
+                <div class="feature-item">
+                    <h3>音楽ジャケットを完璧に</h3>
+                    <p>お気に入りのアルバムアートを壁紙に。ジャケット画像を自動で最適化し、<span class="highlight">画面いっぱいに美しく表示</span>します。好きな音楽に囲まれた生活を。
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <h3>背景色も自由自在</h3>
+                    <p>インテリジェント配色機能で、<span
+                            class="highlight">画像に合った最適な背景色を自動提案</span>。もちろん、お好みの色に変更も可能です。画像の魅力を最大限に引き出します。</p>
+                </div>
+                <div class="feature-item">
+                    <h3>ワンタップで即適用</h3>
+                    <p>編集完了後、<span class="highlight">ワンタップで即座に壁紙として設定可能</span>。手間なく、すぐに新しい壁紙を楽しめます。毎日の壁紙変更も簡単です。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="download" class="card">
+            <h2>ダウンロード</h2>
+            <p>壁紙リサイズは完全無料でお使いいただけます。Android端末をお持ちの方は、今すぐダウンロードして理想の壁紙作りを始めましょう。</p>
+            <p>あなたの大切な写真や好きな音楽を、毎日の壁紙で楽しんでみませんか？</p>
+            <a href="https://github.com/nomindes/kabegami-resize/releases" target="_blank"
+                class="cta-button">無料ダウンロード（Android専用・APKファイル）</a>
+        </section>
+
+        <section class="card">
+            <h2>開発に参加する</h2>
+            <p>壁紙リサイズはオープンソースプロジェクトです。新機能のアイデアや改善案があれば、ぜひご協力ください。あなたのアイデアで、より多くのユーザーに喜ばれるアプリに成長させましょう。</p>
+            <a href="https://github.com/nomindes/kabegami-resize" target="_blank"
+                class="cta-button">GitHubでプロジェクトを見る</a>
+        </section>
+
+        <section class="card">
+            <h2>開発者に連絡する</h2>
+            <p>アプリについての質問、提案、または単に挨拶したい場合は、以下の方法でお気軽にお問い合わせください：</p>
+            <ul>
+                <li>Discord: <a href="https://discord.com/users/1207631036192919586">開発者と直接チャット</a></li>
+                <li>Twitter: <a href="https://x.com/nomin_coding">@nomin_coding</a></li>
+                <li>GitHub: <a href="https://github.com/nomindes">nomindes</a></li>
+                <li>Email: <a href="mailto:nomincoding@gmail.com">nomincoding@gmail.com</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 壁紙リサイズ (Kabegami Resize). GNU GENERAL PUBLIC LICENSE Version 3 のもとで公開されています。</p>
+        </div>
+    </footer>
+
+    <script>
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function handleScroll() {
+            const elements = document.querySelectorAll('.card, .feature-item');
+            elements.forEach(el => {
+                if (isInViewport(el) && !el.classList.contains('animate')) {
+                    el.classList.add('animate');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            handleScroll();
+            document.querySelector('.hero').classList.add('animate');
+        });
+
+        window.addEventListener('scroll', handleScroll);
+    </script>
+</body>
+
+</html>
