@@ -40,46 +40,21 @@
             color: var(--primary-color);
             text-align: center;
             padding: 2rem 0;
-            box-shadow:
-                0 4px 6px -1px var(--shadow-color),
-                0 2px 4px -1px var(--shadow-color);
-        }
-
-        header .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 200px;
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
         }
 
         h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
-            color: var(--primary-color);
         }
 
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .card {
-            background-color: var(--card-bg-color);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow:
-                0 10px 15px -3px var(--shadow-color),
-                0 4px 6px -2px var(--shadow-color);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .card.animate {
-            animation: fadeInUp 0.6s ease forwards;
+        .android-notice {
+            background-color: var(--secondary-color);
+            color: var(--card-bg-color);
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            margin-bottom: 1rem;
         }
 
         .hero {
@@ -88,14 +63,11 @@
             background-position: center;
             color: var(--card-bg-color);
             text-align: center;
-            padding: 6rem 0;
+            padding: 4rem 0;
             margin-bottom: 2rem;
-            box-shadow:
-                0 10px 15px -3px var(--shadow-color),
-                0 4px 6px -2px var(--shadow-color);
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
-            border-radius: 8px;
         }
 
         .hero::before {
@@ -120,30 +92,21 @@
 
         .hero h2 {
             font-size: 2.5rem;
-            border-bottom: none;
-            color: var(--card-bg-color);
             margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateY(-20px);
         }
 
         .hero p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
         }
 
-        .hero.animate h2 {
-            animation: fadeInDown 0.6s ease forwards 0.3s;
-        }
-
-        .hero.animate p {
-            animation: fadeInUp 0.6s ease forwards 0.6s;
-        }
-
-        .hero.animate .cta-button {
-            animation: fadeIn 0.6s ease forwards 0.9s;
+        .card {
+            background-color: var(--card-bg-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
 
         .feature-grid {
@@ -156,28 +119,13 @@
             background-color: var(--card-bg-color);
             border-radius: 8px;
             padding: 1.5rem;
-            box-shadow:
-                0 4px 6px -1px var(--shadow-color),
-                0 2px 4px -1px var(--shadow-color);
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .feature-item.animate {
-            animation: fadeInUp 0.6s ease forwards;
         }
 
         .feature-item:hover {
-            box-shadow:
-                0 10px 15px -3px var(--shadow-color),
-                0 4px 6px -2px var(--shadow-color);
+            box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
             transform: translateY(-5px);
-        }
-
-        .feature-item h3 {
-            color: var(--primary-color);
-            margin-top: 0;
         }
 
         .cta-button {
@@ -189,18 +137,18 @@
             border-radius: 30px;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow:
-                0 4px 6px -1px var(--shadow-color),
-                0 2px 4px -1px var(--shadow-color);
-            opacity: 1;
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
         }
 
         .cta-button:hover {
             background-color: var(--primary-color);
-            box-shadow:
-                0 10px 15px -3px var(--shadow-color),
-                0 4px 6px -2px var(--shadow-color);
+            box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
             transform: translateY(-2px);
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: var(--accent-color);
         }
 
         footer {
@@ -209,59 +157,15 @@
             text-align: center;
             padding: 1rem 0;
             margin-top: 2rem;
-            box-shadow:
-                0 -4px 6px -1px var(--shadow-color),
-                0 -2px 4px -1px var(--shadow-color);
         }
 
-        .android-notice {
-            background-color: var(--secondary-color);
-            color: var(--card-bg-color);
-            text-align: center;
-            padding: 10px;
-            font-weight: bold;
-            margin-bottom: 2rem;
-            box-shadow:
-                0 4px 6px -1px var(--shadow-color),
-                0 2px 4px -1px var(--shadow-color);
-        }
-
-        .highlight {
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 0;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
+            .card {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -317,14 +221,14 @@
             <h2>ダウンロード</h2>
             <p>壁紙リサイズは完全無料でお使いいただけます。Android端末をお持ちの方は、今すぐダウンロードして理想の壁紙作りを始めましょう。</p>
             <p>あなたの大切な写真や好きな音楽を、毎日の壁紙で楽しんでみませんか？</p>
-            <a href="https://github.com/nomindes/kabegami-resize/releases" target="_blank"
-                class="cta-button">無料ダウンロード（Android専用・APKファイル）</a>
+            <a href="https://github.com/nomindes/Kabegami-Resize/releases/latest" target="_blank"
+                class="cta-button">無料ダウンロード（Android専用）</a>
         </section>
 
         <section class="card">
             <h2>開発に参加する</h2>
             <p>壁紙リサイズはオープンソースプロジェクトです。新機能のアイデアや改善案があれば、ぜひご協力ください。あなたのアイデアで、より多くのユーザーに喜ばれるアプリに成長させましょう。</p>
-            <a href="https://github.com/nomindes/kabegami-resize" target="_blank"
+            <a href="https://github.com/nomindes/Kabegami-Resize" target="_blank"
                 class="cta-button">GitHubでプロジェクトを見る</a>
         </section>
 
@@ -332,47 +236,19 @@
             <h2>開発者に連絡する</h2>
             <p>アプリについての質問、提案、または単に挨拶したい場合は、以下の方法でお気軽にお問い合わせください：</p>
             <ul>
-                <li>Discord: <a href="https://discord.com/users/1207631036192919586" target="_blank">開発者と直接チャット</a></li>
-                <li>Twitter: <a href="https://x.com/nomin_coding" target="_blank">@nomin_coding</a></li>
-                <li>GitHub: <a href="https://github.com/nomindes" target="_blank">nomindes</a></li>
-                <li>Email: <a href="mailto:nomincoding@gmail.com" target="_blank">nomincoding@gmail.com</a></li>
+                <li>Discord: <a href="https://discord.com/users/1207631036192919586">開発者と直接チャット</a></li>
+                <li>Twitter: <a href="https://x.com/nomin_coding">@nomin_coding</a></li>
+                <li>GitHub: <a href="https://github.com/nomindes">nomindes</a></li>
+                <li>Email: <a href="mailto:nomincoding@gmail.com">nomincoding@gmail.com</a></li>
             </ul>
         </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 壁紙リサイズ (Kabegami Resize). GNU GENERAL PUBLIC LICENSE Version 3 のもとで公開されています。</p>
+            <p>© 2024 壁紙リサイズ (Kabegami Resize). GNU GENERAL PUBLIC LICENSE Version 3 のもとで公開されています。</p>
         </div>
     </footer>
-
-    <script>
-        function isInViewport(element) {
-            const rect = element.getBoundingClientRect();
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-        }
-
-        function handleScroll() {
-            const elements = document.querySelectorAll('.card, .feature-item');
-            elements.forEach(el => {
-                if (isInViewport(el) && !el.classList.contains('animate')) {
-                    el.classList.add('animate');
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            handleScroll();
-            document.querySelector('.hero').classList.add('animate');
-        });
-
-        window.addEventListener('scroll', handleScroll);
-    </script>
 </body>
 
 </html>
