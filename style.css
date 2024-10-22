@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap');
 
 body,
 html {
     height: 100%;
     margin: 0;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Roboto Mono', 'Noto Sans JP', monospace;
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -64,12 +64,9 @@ nav {
     background-color: rgba(0, 0, 0, 0.8);
     transition: transform 0.3s ease;
     padding-top: 60px;
-    /* ヘッダーの高さ分のパディング */
     padding-bottom: 60px;
-    /* フッターの高さ分のパディング */
     box-sizing: border-box;
     overflow-y: auto;
-    /* スクロール可能にする */
 }
 
 nav.open {
@@ -95,9 +92,7 @@ nav ul li a {
 
 main {
     padding-top: 60px;
-    /* ヘッダーの高さ分のパディング */
     padding-bottom: 60px;
-    /* フッターの高さ分のパディング */
     min-height: 100vh;
     box-sizing: border-box;
 }
@@ -110,7 +105,6 @@ section {
     padding: 20px;
     box-sizing: border-box;
     min-height: calc(100vh - 120px);
-    /* header + footer height */
 }
 
 .section-content {
@@ -247,12 +241,10 @@ p {
 
 .status-indicator.online {
     background-color: #4CAF50;
-    /* Green for online */
 }
 
 .status-indicator.offline {
     background-color: #F44336;
-    /* Red for offline */
 }
 
 .project-name {
@@ -263,16 +255,6 @@ footer p {
     margin: 0;
     font-size: 0.9rem;
     text-align: center;
-}
-
-@media (max-width: 768px) {
-    nav {
-        transform: translateX(-100%);
-    }
-
-    nav.open {
-        transform: translateX(0);
-    }
 }
 
 @media (max-width: 768px) {
