@@ -4,235 +4,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sena Aoyagi - モバイルアプリ開発者 | @nomin_coding</title>
-    <meta name="description" content="16歳の高校生Flutter開発者、Sena Aoyagi（@nomin_coding）のポートフォリオサイトです。プロジェクト実績や技術スキルをご覧ください。">
-    <meta name="keywords" content="Sena Aoyagi, nomin_coding, Flutter開発, モバイルアプリ, 高校生プログラマー">
-    <link rel="canonical" href="https://nomin.jp" />
-    <meta property="og:title" content="Sena Aoyagi - モバイルアプリ開発者 | @nomin_coding">
-    <meta property="og:description" content="16歳の高校生Flutter開発者、Sena Aoyagiのポートフォリオサイトです。プロジェクト実績や技術スキルをご覧ください。">
-    <meta property="og:image" content="https://nomin.jp/background2.jpg">
-    <meta property="og:url" content="https://nomin.jp">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@nomin_coding">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <style>
-        body {
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-color: #f0f0f0;
-            color: #333333;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: -1;
-        }
-
-        .text-content {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .text-container {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .accent-color {
-            color: #808080;
-        }
-
-        .hover-effect:hover {
-            background-color: #d3d3d3;
-        }
-
-        .border-color {
-            border-color: #a9a9a9;
-        }
-
-        @media (min-width: 768px) {
-            body {
-                background-image: url('background2.jpg');
-            }
-        }
-
-        .glass {
-            background: rgba(200, 200, 200, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(200, 200, 200, 0.3);
-            border-radius: 10px;
-        }
-    </style>
+    <title>Nomin/Sena's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-gray-900 text-white font-sans">
-    <div class="container mx-auto px-4 py-8">
-        <header class="text-center mb-12">
-            <img src="icon.png" alt="Sena Aoyagi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white">
-            <h1 class="text-4xl font-bold text-white">Sena Aoyagi</h1>
-            <p class="text-xl text-gray-300">@nomin_coding</p>
-        </header>
+<body>
+    <header>
+        <button id="menu-btn">&#9776;</button>
+        <nav id="menu">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#sns">Social Media</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <main>
-            <section class="glass p-6 mb-8">
-                <h2 class="text-2xl font-semibold text-white mb-4">About Me</h2>
-                <div class="text-gray-200 leading-relaxed space-y-4">
-                    <p>
-                        こんにちは、Senaです。ハンドルネーム「nomin」としても活動しています。16歳の高校2年生で、Flutterを中心としたモバイルアプリ開発にハマっています。
-                    </p>
-                    <p>
-                        小学6年生の頃からプログラミングを始め、現在はWebツール開発やモバイルアプリ開発など、様々なプロジェクトに取り組んでいます。技術を通じて人々の生活をより良くすることが私の目標です。
-                    </p>
-                    <p>
-                        趣味は写真撮影で、特にスマートフォンでの撮影技術を極めることに挑戦しています。技術とアイデアの融合に魅力を感じています。きっと素晴らしいことが起きると常に信じている！(<a
-                            href="https://www.mi.com/jp/about/" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-400 hover:text-blue-400">mi.com</a>)
-                    </p>
-                </div>
-            </section>
-
-            <section class="glass p-6 mb-8">
-                <h2 class="text-2xl font-semibold text-white mb-4">Skills</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
-                    <a href="https://flutter.dev" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col items-center group">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg"
-                            alt="Flutter" class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform">
-                        <span class="text-sm group-hover:text-blue-400">Flutter</span>
-                    </a>
-                    <a href="https://dart.dev" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col items-center group">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="Dart"
-                            class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform">
-                        <span class="text-sm group-hover:text-blue-400">Dart</span>
-                    </a>
-                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank"
-                        rel="noopener noreferrer" class="flex flex-col items-center group">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-                            alt="HTML" class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform">
-                        <span class="text-sm group-hover:text-blue-400">HTML</span>
-                    </a>
-                    <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col items-center group">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"
-                            class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform">
-                        <span class="text-sm group-hover:text-blue-400">CSS</span>
-                    </a>
-                    <a href="https://www.python.org" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col items-center group">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
-                            alt="Python" class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform">
-                        <span class="text-sm group-hover:text-blue-400">Python</span>
-                    </a>
-                    <a href="https://code.visualstudio.com" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col items-center group">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
-                            alt="VSCode" class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform">
-                        <span class="text-sm group-hover:text-blue-400">VSCode</span>
-                    </a>
-                    <a href="https://ubuntu.com" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col items-center group">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-plain.svg"
-                            alt="Ubuntu" class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform">
-                        <span class="text-sm group-hover:text-blue-400">Ubuntu</span>
-                    </a>
-                </div>
-                <p class="text-gray-300 mt-4">
-                    上記のスキルに加えて、他の様々な言語や技術に興味を持ち、学習しています。それらはまだ流暢に使えるレベルではありませんが、必要に応じて学んでいます。
-                </p>
-            </section>
-
-            <section class="glass p-6 mb-8">
-                <h2 class="text-2xl font-semibold text-white mb-4">Projects</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a class="border border-gray-600 rounded p-4 hover:bg-gray-800 transition duration-300">
-                        <h3 class="text-lg font-semibold mb-2 text-white">Ruby Network</h3>
-                        <p class="text-gray-300">Minecraft 1.8.9のPvPサーバー（現在は終了）</p>
-                    </a>
-                    <a href="https://nomin.jp/rubytools/" target="_blank" rel="noopener noreferrer"
-                        class="border border-gray-600 rounded p-4 hover:bg-gray-800 transition duration-300">
-                        <h3 class="text-lg font-semibold mb-2 text-white">Ruby Tools</h3>
-                        <p class="text-gray-300">20個の便利なWebツールを提供するサイト</p>
-                    </a>
-                    <a href="https://nomin.jp/kabegami-resize/" target="_blank" rel="noopener noreferrer"
-                        class="border border-gray-600 rounded p-4 hover:bg-gray-800 transition duration-300">
-                        <h3 class="text-lg font-semibold mb-2 text-white">壁紙リサイズ</h3>
-                        <p class="text-gray-300">スマホ用の壁紙リサイズアプリ</p>
-                    </a>
-                </div>
-            </section>
-
-            <section class="glass p-6 mb-8">
-                <h2 class="text-2xl font-semibold text-white mb-4">Achievements</h2>
-                <ul class="list-disc list-inside text-gray-300 space-y-2">
-                    <li>Ruby Network: Minecraft 1.8.9のPvPサーバーにおいて月間累計参加者数日本一位を達成</li>
-                    <li>筑波大学情報科学類のプロジェクトに招待され、その一環としてSMS電話番号認証システムを開発</li>
-                    <li>Ruby Tools: 20個の便利なWebツールを公開・運営中</li>
-                    <li>壁紙リサイズ: Androidの壁紙のサイズをピッタリにするアプリを公開・運営中</li>
-                </ul>
-            </section>
-        </main>
-
-        <footer class="text-center text-gray-400 mt-12">
-            <div class="flex justify-center space-x-4 mb-4">
-                <a href="https://github.com/nomindes" target="_blank" rel="noopener noreferrer"
-                    class="text-gray-400 hover:text-white"><i class="fab fa-github fa-2x"></i></a>
-                <div class="relative">
-                    <span id="x-icon" class="text-gray-400 hover:text-white cursor-pointer">
-                        <i class="fab fa-twitter fa-2x"></i>
-                    </span>
-                    <div id="x-popup"
-                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden p-2 w-48">
-                        <section class="glass p-6">
-                            <a href="https://x.com/nomin_coding" target="_blank" rel="noopener noreferrer"
-                                class="hover:text-white">写真用アカウント</a><br>
-                            <a href="https://x.com/nomin_coding2" target="_blank" rel="noopener noreferrer"
-                                class="hover:text-white">メインアカウント</a>
-                        </section>
-                    </div>
-                </div>
-                <a href="mailto:nomincoding@gmail.com" class="text-gray-400 hover:text-white"><i
-                        class="fas fa-envelope fa-2x"></i></a>
+    <main>
+        <section id="home" class="section">
+            <div class="section-content">
+                <h1>Nomin/Sena's Portfolio</h1>
             </div>
-            <p>© <span id="current-year">2024</span> Sena Aoyagi. All rights reserved.</p>
-        </footer>
-    </div>
+        </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const xIcon = document.getElementById('x-icon');
-            const xPopup = document.getElementById('x-popup');
-            let isPopupVisible = false;
+        <section id="about" class="section">
+            <div class="section-content">
+                <h2>About Me</h2>
+                <p>こんにちは、Nomin/Senaと申します。日韓ハーフの高校生で、日本の学校に通いながら技術を磨いています。<br>アイデアの発想と同時にそれを実現することができるフルスタックエンジニアを目指しています。<br>最近はFlutterを勉強しています。通信構造解析や実行効率化を得意としています。
+                </p>
+            </div>
+        </section>
 
-            xIcon.addEventListener('click', () => {
-                if (isPopupVisible) {
-                    xPopup.classList.add('hidden');
-                } else {
-                    xPopup.classList.remove('hidden');
-                }
-                isPopupVisible = !isPopupVisible;
-            });
+        <section id="skills" class="section">
+            <div class="section-content">
+                <h2>My Skills</h2>
+                <ul>
+                    <li>HTML/CSS</li>
+                    <li>Flutter/Dart</li>
+                    <li>Python</li>
+                    <li>Ubuntu</li>
+                    <li>etc...</li>
+                </ul>
+            </div>
+        </section>
 
-            document.addEventListener('click', (event) => {
-                if (!xIcon.contains(event.target) && !xPopup.contains(event.target)) {
-                    xPopup.classList.add('hidden');
-                    isPopupVisible = false;
-                }
-            });
-        });
+        <section id="projects" class="section">
+            <div class="section-content">
+                <h2>Projects</h2>
+                <ul class="project-list">
+                    <li>
+                        <a href="https://youtu.be/ERX81l6sGIc?si=jD1CkHdOYCscFKo3" target="_blank">
+                            <span class="status-indicator offline"></span>
+                            <span class="project-name">Ruby Network</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://nomin.jp/rubytools" target="_blank">
+                            <span class="status-indicator online"></span>
+                            <span class="project-name">Ruby Tools</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://nomin.jp/kabegami-resize" target="_blank">
+                            <span class="status-indicator online"></span>
+                            <span class="project-name">壁紙リサイズ</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
+        <section id="achievements" class="section">
+            <div class="section-content">
+                <h2>Achievements</h2>
+                <ul>
+                    <li>2022/04~2023/01 / Ruby Networkの開発、運営。<br>Minecraft 1.8.9のPvPサーバーにおいて月間累計参加者数日本一位を達成。</li>
+                    <li>2023/11~2024/01 / 筑波大学情報科学類のプロジェクトに招待される。<br>SMS電話番号認証システムを開発。</li>
+                    <li>2024/07~ / 壁紙リサイズの開発、運営。<br>Androidの壁紙のサイズをピッタリにするアプリを公開。</li>
+                    <li>2024/08~ / Ruby Toolsの開発、運営。<br>約20個の便利なWebツールを公開。</li>
+                    <li>2024/10~ / Ruby Networkのサービス再開に向けて開発中。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="sns" class="section">
+            <div class="section-content">
+                <h2>Social Media</h2>
+                <ul class="project-list">
+                    <li>
+                        <a href="https://discordapp.com/users/1207631036192919586" target="_blank">
+                            <span class="project-name">Discord</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/nomindes" target="_blank">
+                            <span class="project-name">GitHub</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://x.com/nomin_coding" target="_blank">
+                            <span class="project-name">X(写真)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://x.com/nomin_coding2" target="_blank">
+                            <span class="project-name">X(日常)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:nomincoding@gmail.com" target="_blank">
+                            <span class="project-name">Email</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Sena Aoyagi. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
