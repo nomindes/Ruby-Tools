@@ -114,10 +114,34 @@
             z-index: 2;
         }
 
+        /* レスポンシブ対応の改善 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: 1rem;
+            width: 100%;
+            overflow-x: hidden;
+            /* 横スクロールを防止 */
+        }
+
+        .speed-graphs {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .graph-container {
+            position: relative;
+            height: 300px;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .stats-grid {
@@ -280,14 +304,20 @@
         }
 
         .table-container {
+            width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         table {
             width: 100%;
+            min-width: 600px;
+            /* テーブルの最小幅を設定 */
             border-collapse: collapse;
-            background: white;
         }
 
         th,
@@ -307,16 +337,44 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .graph-container {
+                height: 250px;
+                /* モバイルでは少し小さく */
+                padding: 0.5rem;
+            }
+
             .stats-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
-            .banner {
-                height: 200px;
+            .quality-grid {
+                grid-template-columns: 1fr !important;
             }
 
-            .server-list {
-                grid-template-columns: 1fr;
+            .section {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+
+            /* テーブルのスクロール表示を改善 */
+            .table-container {
+                margin: 0.5rem -0.5rem;
+                width: calc(100% + 1rem);
+                border-radius: 0;
+            }
+
+            /* ヘッダーの調整 */
+            .header-content {
+                padding: 1rem 0.5rem;
+            }
+
+            .header-content h1 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -598,7 +656,36 @@
 
             <script>
                 function initSpeedGraphs() {
-                    // データの定義
+                    const defaultOptions = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '速度 (Mbps)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'ファイルサイズ'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    boxWidth: 20,
+                                    padding: 10
+                                }
+                            }
+                        }
+                    };
+
+                    // データセットの定義は既存のコードを維持
                     const downloadData = {
                         labels: ['100KB', '1MB', '10MB', '25MB'],
                         datasets: [
@@ -653,59 +740,30 @@
                         ]
                     };
 
-                    // グラフの設定
-                    const options = {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: '速度 (Mbps)'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'ファイルサイズ'
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                position: 'top'
-                            }
-                        }
-                    };
-
-                    // ダウンロードグラフの描画
-                    const downloadCtx = document.getElementById('downloadGraph').getContext('2d');
-                    new Chart(downloadCtx, {
+                    // レスポンシブ対応を改善したグラフの描画
+                    new Chart(document.getElementById('downloadGraph').getContext('2d'), {
                         type: 'line',
                         data: downloadData,
-                        options: options
+                        options: defaultOptions
                     });
 
-                    // アップロードグラフの描画
-                    const uploadCtx = document.getElementById('uploadGraph').getContext('2d');
-                    new Chart(uploadCtx, {
+                    new Chart(document.getElementById('uploadGraph').getContext('2d'), {
                         type: 'line',
                         data: uploadData,
                         options: {
-                            ...options,
+                            ...defaultOptions,
                             scales: {
-                                ...options.scales,
+                                ...defaultOptions.scales,
                                 y: {
-                                    ...options.scales.y,
-                                    max: 650 // アップロード速度の最大値に余裕を持たせる
+                                    ...defaultOptions.scales.y,
+                                    max: 650
                                 }
                             }
                         }
                     });
                 }
 
-                // Chart.jsの読み込み
+                // Chart.jsの読み込みと初期化
                 const script = document.createElement('script');
                 script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js';
                 script.onload = initSpeedGraphs;
