@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NominVPN - 筑波大学VPNGateサーバー</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #262626;
+            --secondary-color: #404040;
+            --background-color: #fafafa;
+            --text-color: #171717;
+            --accent-color: #525252;
+            --link-color: #404040;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .banner {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+
+        .protocol-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .protocol-item {
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: 4px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .protocol-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .server-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .server-item {
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: var(--background-color);
+        }
+
+        .server-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .server-specs {
+            margin-top: 1rem;
+        }
+
+        .server-specs dt {
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .server-specs dd {
+            margin-left: 1rem;
+            color: #4a5568;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-maintenance {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-inactive {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .notice {
+            background: #F3F4F6;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .warning {
+            background: #FEF2F2;
+            border-left: 4px solid #DC2626;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .policy-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .policy-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .policy-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #E5E7EB;
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #F9FAFB;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .banner {
+                height: 200px;
+            }
+
+            .server-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="データセンターのネットワーク機器" class="banner">
+        <div class="header-content">
+            <h1>NominVPN</h1>
+            <p>筑波大学VPNGateプロジェクト参加サーバー</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-server"></i>
+                <h3>提供サーバー数</h3>
+                <p>1台</p>
+                <small>（2024年11月10日時点）</small>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>累計ログイン数</h3>
+                <p>37,301回</p>
+                <small>（2024年11月10日時点）</small>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>対応プロトコル数</h3>
+                <p>4種類</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>重要なお知らせ</h2>
+            <div class="notice">
+                <p><i class="fas fa-info-circle"></i> 本サービスはベストエフォート型となります。</p>
+            </div>
+            <div class="warning">
+                <h3><i class="fas fa-exclamation-triangle"></i> Abuse（不正利用）について</h3>
+                <p>以下の行為は厳禁とし、発覚した場合は即時アクセスを遮断いたします：</p>
+                <ul class="policy-list">
+                    <li>著作権を侵害する行為</li>
+                    <li>他者への攻撃や迷惑行為</li>
+                    <li>違法行為全般</li>
+                    <li>スパム行為</li>
+                    <li>サービスの過度な占有</li>
+                </ul>
+                <p>不正利用を発見した場合: <a href="mailto:nomincoding@gmail.com" style="color: inherit;">nomincoding@gmail.com</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>ログポリシー</h2>
+            <p>VPNGateプロジェクトのガイドラインに従い、以下の通りログを保管しています：</p>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>項目</th>
+                        <th>保存期間</th>
+                        <th>内容</th>
+                    </tr>
+                    <tr>
+                        <td>セキュリティログ</td>
+                        <td>1日単位で切り替え</td>
+                        <td>ユーザーのログインなどの記録</td>
+                    </tr>
+                    <tr>
+                        <td>パケットログ</td>
+                        <td>1日単位で切り替え</td>
+                        <td>通信パケットのヘッダ情報のみ</td>
+                    </tr>
+                </table>
+            </div>
+            <p>※ VPNGateプロジェクトの方針に基づき、最低限必要なログのみを保管しています。</p>
+        </div>
+
+        <div class="section">
+            <h2>対応プロトコル</h2>
+            <div class="protocol-list">
+                <div class="protocol-item">
+                    <i class="fas fa-lock"></i>
+                    <h3>SSL-VPN</h3>
+                </div>
+                <div class="protocol-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>L2TP/IPsec</h3>
+                </div>
+                <div class="protocol-item">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>OpenVPN</h3>
+                </div>
+                <div class="protocol-item">
+                    <i class="fas fa-globe"></i>
+                    <h3>MS-SSTP</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>提供中のサーバー</h2>
+            <div class="server-list">
+                <div class="server-item">
+                    <h3><i class="fas fa-server"></i> 関西リージョン</h3>
+                    <dl class="server-specs">
+                        <dt>ホスト名</dt>
+                        <dd>nomin-jpwest1.opengw.net</dd>
+
+                        <dt>基準回線速度</dt>
+                        <dd>100 Mbps</dd>
+
+                        <dt>バックボーン</dt>
+                        <dd>10 Gbps</dd>
+
+                        <dt>ステータス</dt>
+                        <dd><span class="status status-active">稼働中</span></dd>
+
+                        <dt>過去30日間の稼働率</dt>
+                        <dd>100.0%</dd>
+                    </dl>
+
+                    <h4 style="margin-top: 1.5rem; color: var(--accent-color);"><i class="fas fa-microchip"></i> 技術仕様
+                    </h4>
+                    <dl class="server-specs">
+                        <dt>OS</dt>
+                        <dd>Windows Server 2022</dd>
+
+                        <dt>CPU</dt>
+                        <dd>2コア / 2.1GHz / 64bit</dd>
+
+                        <dt>メモリ</dt>
+                        <dd>1GB DIMM</dd>
+
+                        <dt>ストレージ</dt>
+                        <dd>50GB SSD</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>接続方法</h2>
+            <div class="notice">
+                <p><i class="fas fa-info-circle"></i> 接続方法の詳細については、<a href="https://www.vpngate.net/ja/" target="_blank"
+                        rel="noopener noreferrer"
+                        style="color: var(--link-color); font-weight: bold;">VPNGate公式サイト</a>をご参照ください。</p>
+            </div>
+            <div style="margin-top: 1rem;">
+                <h4><i class="fas fa-laptop"></i> 推奨クライアントソフトウェア</h4>
+                <p style="margin-top: 0.5rem;">VPNGate Client</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>サービス品質</h2>
+            <div class="quality-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div class="stat-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>稼働率</h3>
+                    <p>100.0%</p>
+                    <small>過去30日間</small>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>回線速度</h3>
+                    <p>ベストエフォート</p>
+                    <small>基準値: 100Mbps / バックボーン: 10Gbps</small>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h3><i class="fas fa-chart-bar"></i> スピードテスト実測値</h3>
+                <p style="margin: 1rem 0;">2024年11月10日実施の計測結果（3回の試行の平均値）</p>
+
+                <div class="speed-graphs" style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin: 2rem 0;">
+                    <div>
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-download"></i> ダウンロード速度</h4>
+                        <div class="graph-container"
+                            style="position: relative; height: 300px; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <canvas id="downloadGraph" style="width: 100%; height: 100%;"></canvas>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-upload"></i> アップロード速度</h4>
+                        <div class="graph-container"
+                            style="position: relative; height: 300px; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <canvas id="uploadGraph" style="width: 100%; height: 100%;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>転送サイズ</th>
+                            <th>方向</th>
+                            <th>平均速度</th>
+                            <th>最大速度</th>
+                            <th>最小速度</th>
+                            <th>サンプル数</th>
+                        </tr>
+                        <tr>
+                            <td>100 KB</td>
+                            <td>ダウンロード</td>
+                            <td>68.6 Mbps</td>
+                            <td>102.9 Mbps</td>
+                            <td>8.9 Mbps</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>1 MB</td>
+                            <td>ダウンロード</td>
+                            <td>89.3 Mbps</td>
+                            <td>96.5 Mbps</td>
+                            <td>37.9 Mbps</td>
+                            <td>24</td>
+                        </tr>
+                        <tr>
+                            <td>10 MB</td>
+                            <td>ダウンロード</td>
+                            <td>95.6 Mbps</td>
+                            <td>96.1 Mbps</td>
+                            <td>93.5 Mbps</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>25 MB</td>
+                            <td>ダウンロード</td>
+                            <td>94.2 Mbps</td>
+                            <td>96.2 Mbps</td>
+                            <td>81.6 Mbps</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>100 KB</td>
+                            <td>アップロード</td>
+                            <td>36.8 Mbps</td>
+                            <td>62.3 Mbps</td>
+                            <td>2.8 Mbps</td>
+                            <td>24</td>
+                        </tr>
+                        <tr>
+                            <td>1 MB</td>
+                            <td>アップロード</td>
+                            <td>268.5 Mbps</td>
+                            <td>416.6 Mbps</td>
+                            <td>125.0 Mbps</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>10 MB</td>
+                            <td>アップロード</td>
+                            <td>235.0 Mbps</td>
+                            <td>622.8 Mbps</td>
+                            <td>110.7 Mbps</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>25 MB</td>
+                            <td>アップロード</td>
+                            <td>131.6 Mbps</td>
+                            <td>190.8 Mbps</td>
+                            <td>109.6 Mbps</td>
+                            <td>12</td>
+                        </tr>
+                    </table>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9em; color: var(--accent-color);">
+                    ※ 測定値は環境やネットワーク状況により大きく変動する可能性があります。<br>
+                    ※ 小規模ファイル（100KB以下）の転送では、通信の確立に要する時間の影響で実効速度が低く表示される傾向があります。
+                </p>
+            </div>
+
+            <script>
+                function initSpeedGraphs() {
+                    // データの定義
+                    const downloadData = {
+                        labels: ['100KB', '1MB', '10MB', '25MB'],
+                        datasets: [
+                            {
+                                label: '平均速度',
+                                data: [68.6, 89.3, 95.6, 94.2],
+                                borderColor: '#2563eb',
+                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                                fill: true
+                            },
+                            {
+                                label: '最大速度',
+                                data: [102.9, 96.5, 96.1, 96.2],
+                                borderColor: '#15803d',
+                                backgroundColor: 'rgba(21, 128, 61, 0.1)',
+                                fill: true
+                            },
+                            {
+                                label: '最小速度',
+                                data: [8.9, 37.9, 93.5, 81.6],
+                                borderColor: '#dc2626',
+                                backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                                fill: true
+                            }
+                        ]
+                    };
+
+                    const uploadData = {
+                        labels: ['100KB', '1MB', '10MB', '25MB'],
+                        datasets: [
+                            {
+                                label: '平均速度',
+                                data: [36.8, 268.5, 235.0, 131.6],
+                                borderColor: '#2563eb',
+                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                                fill: true
+                            },
+                            {
+                                label: '最大速度',
+                                data: [62.3, 416.6, 622.8, 190.8],
+                                borderColor: '#15803d',
+                                backgroundColor: 'rgba(21, 128, 61, 0.1)',
+                                fill: true
+                            },
+                            {
+                                label: '最小速度',
+                                data: [2.8, 125.0, 110.7, 109.6],
+                                borderColor: '#dc2626',
+                                backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                                fill: true
+                            }
+                        ]
+                    };
+
+                    // グラフの設定
+                    const options = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '速度 (Mbps)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'ファイルサイズ'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    };
+
+                    // ダウンロードグラフの描画
+                    const downloadCtx = document.getElementById('downloadGraph').getContext('2d');
+                    new Chart(downloadCtx, {
+                        type: 'line',
+                        data: downloadData,
+                        options: options
+                    });
+
+                    // アップロードグラフの描画
+                    const uploadCtx = document.getElementById('uploadGraph').getContext('2d');
+                    new Chart(uploadCtx, {
+                        type: 'line',
+                        data: uploadData,
+                        options: {
+                            ...options,
+                            scales: {
+                                ...options.scales,
+                                y: {
+                                    ...options.scales.y,
+                                    max: 650 // アップロード速度の最大値に余裕を持たせる
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Chart.jsの読み込み
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js';
+                script.onload = initSpeedGraphs;
+                document.head.appendChild(script);
+            </script>
+        </div>
+
+        <div class="section">
+            <h2>利用規約とポリシー</h2>
+            <p>本サービスは<a href="https://www.vpngate.net/ja/" target="_blank" rel="noopener noreferrer"
+                    style="color: var(--link-color); font-weight: bold;">筑波大学VPNGateプロジェクト</a>の一環として提供されており、以下の方針を厳守しています：
+            </p>
+            <ul class="policy-list">
+                <li>VPNGateプロジェクトが定める全てのガイドライン</li>
+                <li>日本国内の関連法規</li>
+                <li>一般的なインターネット利用マナーと規約</li>
+                <li>ユーザープライバシーとセキュリティポリシー</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>運営者: nomin (Sena Aoyagi)</p>
+        <p>お問い合わせ: <a href="mailto:nomincoding@gmail.com">nomincoding@gmail.com</a></p>
+        <p style="margin-top: 1rem;">
+            <a href="https://nomin.jp" target="_blank" rel="noopener noreferrer">Powered by nomin.jp</a>
+        </p>
+    </footer>
+</body>
+
+</html>
