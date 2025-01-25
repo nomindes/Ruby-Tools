@@ -357,15 +357,6 @@
             }
         }
     </style>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z50VK6QXRX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-Z50VK6QXRX');
-    </script>
 </head>
 
 <body>
@@ -415,18 +406,6 @@
             <h2>プロジェクト概要</h2>
             <p>Ruby Toolsは、日常生活からビジネスまで、あらゆる領域での効率化を追求する個人プロジェクトです。使いやすいWebツールやスマホアプリを開発し、ユーザーの生産性向上を支援します。
             </p>
-        </section>
-
-        <section id="ad" class="section">
-            <h2>広告</h2>
-            <p>当サービスとは関係ありません。</p>
-            <!-- admax -->
-            <div class="admax-ads" data-admax-id="1dc7f0b7b9673a24bd8cb130a0bce2c5"
-                style="display:inline-block;width:468px;height:60px;"></div>
-            <script
-                type="text/javascript">(admaxads = window.admaxads || []).push({ admax_id: "1dc7f0b7b9673a24bd8cb130a0bce2c5", type: "banner" });</script>
-            <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
-            <!-- admax -->
         </section>
 
         <section id="goals" class="section">
@@ -585,16 +564,6 @@
             </div>
         </section>
 
-        <section id="donation" class="section">
-            <h2>寄付</h2>
-            <p>Ruby Toolsを気に入っていただきありがとうございます。寄付金は開発費用に充てさせていただきます。
-            </p>
-            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
-                data-name="bmc-button" data-slug="nomincoding" data-color="#FFDD00" data-emoji="" data-font="Cookie"
-                data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000"
-                data-coffee-color="#ffffff"></script>
-        </section>
-
         <section id="participate" class="section">
             <h2>参加とフィードバック</h2>
             <p>Ruby Toolsは、効率化に関心のある皆様のアイデアとFBを歓迎します。ベータテスターとして参加いただくことで、より良いツール開発に貢献できます。一緒に、日々の生産性を向上させましょう。
@@ -605,64 +574,6 @@
             </ul>
         </section>
     </div>
-
-    <script>
-        (function () {
-            var RubyToolsAdBlockDetector = {
-                adElementId: '1dc7f0b7b9673a24bd8cb130a0bce2c5',
-                detectionDelay: 2000,
-
-                isAdBlockEnabled: function () {
-                    var adElement = document.querySelector('.admax-ads[data-admax-id="' + this.adElementId + '"]');
-                    if (!adElement) {
-                        console.warn('指定されたdata-admax-idを持つ広告要素が見つかりません。');
-                        return false;
-                    }
-
-                    var rect = adElement.getBoundingClientRect();
-                    var isHidden = rect.height === 0 ||
-                        window.getComputedStyle(adElement).display === 'none' ||
-                        window.getComputedStyle(adElement).visibility === 'hidden';
-
-                    var hasAdMaxContent = adElement.querySelector('iframe') !== null ||
-                        adElement.querySelector('ins') !== null;
-
-                    return isHidden || !hasAdMaxContent;
-                },
-
-                blockUser: function () {
-                    document.body.innerHTML = `
-                <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
-                    <h1 style="color: #cc3333;">AdBlockが検出されました</h1>
-                    <p>このサイトを利用するには、AdBlockを無効にしてください。</p>
-                    <p>ご協力ありがとうございます。</p>
-                </div>
-            `;
-                },
-
-                detectAdBlock: function () {
-                    if (this.isAdBlockEnabled()) {
-                        this.blockUser();
-                    } else {
-                        console.log('AdBlockは検出されませんでした。');
-                    }
-                },
-
-                init: function () {
-                    var self = this;
-                    setTimeout(function () {
-                        self.detectAdBlock();
-                    }, this.detectionDelay);
-                }
-            };
-
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", RubyToolsAdBlockDetector.init.bind(RubyToolsAdBlockDetector));
-            } else {
-                RubyToolsAdBlockDetector.init();
-            }
-        })();
-    </script>
 
     <script>
         const observerOptions = {
