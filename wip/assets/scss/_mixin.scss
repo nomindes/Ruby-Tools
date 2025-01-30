@@ -1,0 +1,25 @@
+/* fontsize
+------------------------------------------------------------*/
+
+@mixin fontsize($size: 14) {
+    font-size: $size + px;
+    font-size: calc($size / 10) * 1rem;
+}
+
+/* background
+------------------------------------------------------------*/
+$PATH_IMG: "../img/";
+
+@mixin background(
+    $image-name,
+    $repeat: no-repeat,
+    $position: center,
+    $size: cover,
+) {
+    background:  {
+        image: url($PATH_IMG + $image-name);
+        repeat: $repeat;
+        position: $position;
+        size: $size;
+    }
+}

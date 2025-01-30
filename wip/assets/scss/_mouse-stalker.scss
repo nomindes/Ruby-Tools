@@ -1,0 +1,23 @@
+.stalker {
+	background-color: rgba(136,136,136,0.8); /* 背景色 */
+	border-radius: 50%; /* 正円 */
+	width: 20px; /* 円の幅 */
+	height: 20px; /* 円の高さ */
+	left: -15px; /* widthの半分 */
+	opacity: 0; /* カーソルを画面内に入れるまでは透明 */
+	pointer-events: none; /* 直下のリンクをクリック可能にする */
+	position: fixed; /* スクロールしてもカーソルの位置で固定 */
+	top: -15px; /* widthの半分 */
+	transition: transform 0s ease-out, background-color 0.25s, width 0.25s, height 0.25s; /* 遅れてついてくる時間 */
+	z-index: 999; /* 一番上に来るように */
+
+	@media (max-width: 1024px) { //スマホ・タブレットの場合、非表示
+		display: none;
+	}
+
+	&.js-hover {
+		background-color: rgba(80, 80, 80, 0.8); /* 背景色 */
+		height: 35px; /* カーソルがリンク上に乗ったときの高さ */
+		width: 35px; /* カーソルがリンク上に乗ったときの幅 */
+	}
+}

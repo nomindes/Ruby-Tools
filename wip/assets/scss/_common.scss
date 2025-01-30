@@ -1,0 +1,56 @@
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    cursor: none;
+
+    @media (max-width: 1024px) {
+        cursor: default;
+    }
+
+    body {
+        @include fontsize(16);
+        color: #333;
+        background-color: #B2B2B2;
+        // font-family: $font-shippori-antique;
+        font-family: $font-Iwata-antique;
+        font-weight: 400;
+        font-style: normal;
+        max-width: 2500px;
+        min-width: 320px;
+        margin: 0 auto;
+        line-height: 1.6;
+        letter-spacing: 0.1em;
+        overflow-x: hidden;
+        box-sizing: border-box;
+        
+        @media (max-width: 500px) {
+            @include fontsize(14);
+        }
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    cursor: none;
+
+    @media (max-width: 1024px) {
+        cursor: pointer;
+    }
+}
+
+span {
+    &.wraptext {
+        display: inline-block;
+    }
+}
