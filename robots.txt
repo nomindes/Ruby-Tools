@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /assets/scss/
+
+Sitemap: https://nomin.jp/sitemap.xml
