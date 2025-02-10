@@ -596,7 +596,6 @@ main#top-page section#works .container .sliders .arrows #btn-prev {
   font-size: 3.6rem;
   line-height: 1.2;
   position: relative;
-  cursor: pointer;
   padding-right: 2rem;
   transition: color 0.5s;
   transition-delay: 0.1s;
@@ -632,7 +631,6 @@ main#top-page section#works .container .sliders .arrows #btn-next {
   font-size: 36px;
   font-size: 3.6rem;
   line-height: 1.2;
-  cursor: pointer;
   padding-left: 2rem;
   position: relative;
   transition: color 0.5s;
